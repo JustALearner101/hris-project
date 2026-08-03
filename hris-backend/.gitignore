@@ -1,0 +1,22 @@
+# Backend (.NET 9 / ASP.NET Core) .gitignore
+
+[Bb]in/
+[Oo]bj/
+[Tt]est[Rr]esults/
+
+# Sensitive Local App Settings
+appsettings.Development.json
+appsettings.Local.json
+appsettings*.local.json
+secrets.json
+
+# Visual Studio / IDE user files
+*.user
+*.suo
+*.userosv
+*.userprefs
+*.sln.docstates
+*.cache
+
+# Logs
+*.log
