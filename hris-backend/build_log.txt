@@ -1,0 +1,18 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Hris.Domain -> D:\HRIS\hris-client-ng\hris-angular-backend\Hris.Domain\bin\Debug\net9.0\Hris.Domain.dll
+  Hris.Application -> D:\HRIS\hris-client-ng\hris-angular-backend\Hris.Application\bin\Debug\net9.0\Hris.Application.dll
+  Hris.Infrastructure -> D:\HRIS\hris-client-ng\hris-angular-backend\Hris.Infrastructure\bin\Debug\net9.0\Hris.Infrastructure.dll
+D:\HRIS\hris-client-ng\hris-angular-backend\Hris.WebAPI\Program.cs(30,18): error CS1061: 'IServiceCollection' does not contain a definition for 'AddValidatorsFromAssemblyContaining' and no accessible extension method 'AddValidatorsFromAssemblyContaining' accepting a first argument of type 'IServiceCollection' could be found (are you missing a using directive or an assembly reference?) [D:\HRIS\hris-client-ng\hris-angular-backend\Hris.WebAPI\Hris.WebAPI.csproj]
+D:\HRIS\hris-client-ng\hris-angular-backend\Hris.WebAPI\Program.cs(37,32): error CS1503: Argument 2: cannot convert from 'System.Type' to 'System.Action<AutoMapper.IMapperConfigurationExpression>' [D:\HRIS\hris-client-ng\hris-angular-backend\Hris.WebAPI\Hris.WebAPI.csproj]
+
+Build FAILED.
+
+D:\HRIS\hris-client-ng\hris-angular-backend\Hris.WebAPI\Program.cs(30,18): error CS1061: 'IServiceCollection' does not contain a definition for 'AddValidatorsFromAssemblyContaining' and no accessible extension method 'AddValidatorsFromAssemblyContaining' accepting a first argument of type 'IServiceCollection' could be found (are you missing a using directive or an assembly reference?) [D:\HRIS\hris-client-ng\hris-angular-backend\Hris.WebAPI\Hris.WebAPI.csproj]
+D:\HRIS\hris-client-ng\hris-angular-backend\Hris.WebAPI\Program.cs(37,32): error CS1503: Argument 2: cannot convert from 'System.Type' to 'System.Action<AutoMapper.IMapperConfigurationExpression>' [D:\HRIS\hris-client-ng\hris-angular-backend\Hris.WebAPI\Hris.WebAPI.csproj]
+    0 Warning(s)
+    2 Error(s)
+
+Time Elapsed 00:00:00.98
+
+Workload updates are available. Run `dotnet workload list` for more information.

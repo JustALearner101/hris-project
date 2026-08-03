@@ -1,0 +1,18 @@
+{
+  "name": "hris-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "HRIS Monorepo Project",
+  "scripts": {
+    "dev:client": "pnpm --filter ./hris-frontend dev",
+    "dev:backend": "dotnet run --project hris-backend/Hris.WebAPI",
+    "dev": "concurrently -n \"CLIENT,BACKEND\" -c \"cyan,magenta\" \"pnpm dev:client\" \"pnpm dev:backend\"",
+    "build:client": "pnpm --filter ./hris-frontend build",
+    "build:backend": "dotnet build hris-backend/Hris.Backend.sln",
+    "build": "pnpm build:client && pnpm build:backend",
+    "lint:client": "pnpm --filter ./hris-frontend lint"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

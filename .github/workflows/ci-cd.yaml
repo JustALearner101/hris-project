@@ -1,0 +1,84 @@
+name: HRIS Monorepo CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  backend-ci:
+    name: Backend CI (.NET 9)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore Dependencies
+        run: dotnet restore hris-backend/Hris.Backend.sln
+
+      - name: Build Backend
+        run: dotnet build hris-backend/Hris.Backend.sln --no-restore -c Release
+
+  frontend-ci:
+    name: Frontend CI (Next.js 15)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          cache-dependency-path: hris-frontend/pnpm-lock.yaml
+
+      - name: Install Frontend Dependencies
+        run: pnpm --filter hris-frontend install --frozen-lockfile
+
+      - name: Lint Frontend
+        run: pnpm --filter hris-frontend lint
+
+      - name: Build Frontend
+        run: pnpm --filter hris-frontend build
+
+  docker-build-push:
+    name: Docker Build & Push
+    needs: [backend-ci, frontend-ci]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push Frontend Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./hris-frontend
+          target: runner
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/hris-client:latest
+
+      - name: Build and Push Backend Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./hris-backend
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/hris-api:latest
