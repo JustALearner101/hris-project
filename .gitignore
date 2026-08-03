@@ -1,36 +1,82 @@
-# Dependencies
+# ==========================================
+# HRIS Monorepo Root .gitignore
+# ==========================================
+
+# ----- Dependencies & Package Managers -----
 node_modules/
 .pnpm-store/
+.npm/
+.yarn/
 
-# Build outputs
-.next/
-dist/
-build/
-bin/
-obj/
-out/
-
-# IDE / Editor files
-.vs/
-.vscode/
-.idea/
-*.user
-*.suo
-
-# OS generated files
-.DS_Store
-Thumbs.db
-
-# Environment variables
+# ----- Environment Variables & Secrets (Sensitive Data) -----
+.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+.env*.local
 appsettings.Development.json
+appsettings.Local.json
+appsettings*.local.json
+secrets.json
 
-# Logs
+# Keep .env.example tracked
+!.env.example
+
+# ----- Frontend & Next.js Build Outputs -----
+.next/
+out/
+build/
+dist/
+.turbo/
+.swc/
+
+# Testing & Coverage
+coverage/
+.nyc_output/
+
+# ----- Backend (.NET / C#) Build Outputs -----
+[Bb]in/
+[Oo]bj/
+[Tt]est[Rr]esults/
+*.user
+*.suo
+*.userosv
+*.userprefs
+*.sln.docstates
+*.cache
+
+# ----- IDEs & Editor Configuration -----
+.vs/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+
+# ----- OS Generated Files -----
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ----- Logs & Temporary Files -----
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+tmp/
+temp/
+scratch/
+
+# ----- Local Database & Docker Volume Exports -----
+postgres_data/
+redis_data/
