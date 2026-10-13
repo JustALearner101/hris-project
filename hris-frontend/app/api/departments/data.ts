@@ -7,7 +7,7 @@ import type {
     DepartmentTreeNode,
     DepartmentSortBy,
     SortDir,
-} from "@/types/department"
+} from "@/features/department/types/department"
 
 // Seed data
 const departments: Department[] = []

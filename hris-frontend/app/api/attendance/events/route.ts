@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import type { AttendanceEvent } from "@/types/attendance"
+import type { AttendanceEvent } from "@/features/attendance/types/attendance"
 
 let seeded = false
 const events: AttendanceEvent[] = []

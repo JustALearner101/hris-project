@@ -1,4 +1,4 @@
-import type { Announcement } from "@/types/announcement"
+import type { Announcement } from "@/features/announcement/types/announcement"
 
 const announcements: Announcement[] = [
     {

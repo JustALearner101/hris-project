@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -15,6 +16,18 @@ import { Bell, Search } from "lucide-react"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 
 export function Topbar() {
+    const [role, setRole] = useState<string | null>(null)
+
+    useEffect(() => {
+        const storedRole = localStorage.getItem("userRole") || "admin"
+        setRole(storedRole)
+    }, [])
+
+    const handleLogout = () => {
+        localStorage.removeItem("userRole")
+        window.location.href = "/login"
+    }
+
     return (
         <header
             className="sticky top-0 z-20 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b"
@@ -53,9 +66,11 @@ export function Topbar() {
                             <Button variant="ghost" className="gap-2 px-1">
                                 <Avatar className="size-8">
                                     <AvatarImage alt="User" src="/corporate-avatar.jpg" />
-                                    <AvatarFallback>AN</AvatarFallback>
+                                    <AvatarFallback>{role === "user" ? "EP" : "AD"}</AvatarFallback>
                                 </Avatar>
-                                <span className="hidden md:inline text-sm">Admin</span>
+                                <span className="hidden md:inline text-sm">
+                                    {role === "user" ? "Employee" : "Admin"}
+                                </span>
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-56">
@@ -65,10 +80,8 @@ export function Topbar() {
                             <DropdownMenuItem>Preferences</DropdownMenuItem>
                             <DropdownMenuItem>Billing</DropdownMenuItem>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>Sign out
-                                {/*<button onClick={logout} className="ml-auto text-red-600 focus:text-red-600">*/}
-                                {/*    Logout*/}
-                                {/*</button>*/}
+                            <DropdownMenuItem onClick={handleLogout} className="text-red-600 focus:text-red-600 cursor-pointer">
+                                Sign out
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>

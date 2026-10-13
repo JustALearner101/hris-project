@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { listDepartments, createDepartment, getTree, getChildren } from "./data"
-import type { DepartmentSortBy, SortDir } from "@/types/department"
+import type { DepartmentSortBy, SortDir } from "@/features/department/types/department"
 
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url)

@@ -35,6 +35,7 @@ import {
     FileBarChart,
     Megaphone,      // Announcements
     Building, Clock,       // Master Department
+    Cpu,           // Enterprise Integrations
 } from "lucide-react";
 
 
@@ -53,7 +54,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton asChild isActive={pathname === "/dashboard"}>
-                            <Link href="/modules/dashboard" className="flex items-center gap-2">
+                            <Link href="/dashboard" className="flex items-center gap-2">
                                 {/* Logo gede buat expanded */}
                                 <Image
                                     src="/assets/bg.png"
@@ -88,8 +89,8 @@ export function AppSidebar() {
                     <SidebarGroupContent>
                         <SidebarMenu>
                             <SidebarMenuItem>
-                                <SidebarMenuButton asChild isActive={isActive("/dashboard/dashboard-admin")}>
-                                    <Link href="/modules/dashboard/dashboard-admin" className="flex items-center gap-2">
+                                <SidebarMenuButton asChild isActive={isActive("/dashboard")}>
+                                    <Link href="/dashboard" className="flex items-center gap-2">
                                         <LayoutGrid />
                                         <span>Dashboard</span>
                                     </Link>
@@ -115,8 +116,8 @@ export function AppSidebar() {
                             <SidebarGroupContent>
                                 <SidebarMenu>
                                     <SidebarMenuItem>
-                                        <SidebarMenuButton asChild isActive={isActive("/master-employee")}>
-                                            <Link href="/modules/people/master-employee">
+                                        <SidebarMenuButton asChild isActive={isActive("/employees")}>
+                                            <Link href="/employees">
                                                 <Users className="mr-2 size-4" />
                                                 <span>Master Employee</span>
                                             </Link>
@@ -124,8 +125,8 @@ export function AppSidebar() {
                                     </SidebarMenuItem>
 
                                     <SidebarMenuItem>
-                                        <SidebarMenuButton asChild isActive={isActive("/master-document")}>
-                                            <Link href="/modules/people/master-document">
+                                        <SidebarMenuButton asChild isActive={isActive("/document")}>
+                                            <Link href="/document">
                                                 <FileText className="mr-2 size-4" />
                                                 <span>Master Document</span>
                                             </Link>
@@ -133,27 +134,17 @@ export function AppSidebar() {
                                     </SidebarMenuItem>
 
                                     <SidebarMenuItem>
-                                        <SidebarMenuButton asChild isActive={isActive("/master-announcement")}>
-                                            <Link href="/modules/people/master-announcement">
+                                        <SidebarMenuButton asChild isActive={isActive("/announcement")}>
+                                            <Link href="/announcement">
                                                 <Megaphone className="mr-2 size-4" />
                                                 <span>Master Announcement</span>
                                             </Link>
                                         </SidebarMenuButton>
                                     </SidebarMenuItem>
 
-
-                                    {/*<SidebarMenuItem>*/}
-                                    {/*    <SidebarMenuButton asChild isActive={isActive("/master-setting")}>*/}
-                                    {/*        <Link href="/people/master-setting">*/}
-                                    {/*            <Cog className="mr-2 size-4" />*/}
-                                    {/*            <span>Master Setting</span>*/}
-                                    {/*        </Link>*/}
-                                    {/*    </SidebarMenuButton>*/}
-                                    {/*</SidebarMenuItem>*/}
-
                                     <SidebarMenuItem>
-                                        <SidebarMenuButton asChild isActive={isActive("/master-department")}>
-                                            <Link href="/modules/people/master-department">
+                                        <SidebarMenuButton asChild isActive={isActive("/department")}>
+                                            <Link href="/department">
                                                 <Building className="mr-2 size-4" />
                                                 <span>Master Department</span>
                                             </Link>
@@ -162,7 +153,7 @@ export function AppSidebar() {
 
                                     <SidebarMenuItem>
                                         <SidebarMenuButton asChild isActive={isActive("/onboarding-offboarding")}>
-                                            <Link href="/modules/people/onboarding-offboarding">
+                                            <Link href="/onboarding-offboarding">
                                                 <UserPlus className="mr-2 size-4" />
                                                 <span>Onboarding / Offboarding</span>
                                             </Link>
@@ -190,8 +181,8 @@ export function AppSidebar() {
                             <SidebarGroupContent>
                                 <SidebarMenu>
                                     <SidebarMenuItem>
-                                        <SidebarMenuButton asChild isActive={isActive("/attendance/master-attendance-monitoring")}>
-                                            <Link href="/modules/attendance/master-attendance-monitoring">
+                                        <SidebarMenuButton asChild isActive={isActive("/attendance")}>
+                                            <Link href="/attendance">
                                                 <CalendarDays className="mr-2 size-4" />
                                                 <span>Attendance Monitoring</span>
                                             </Link>
@@ -199,8 +190,8 @@ export function AppSidebar() {
                                     </SidebarMenuItem>
 
                                     <SidebarMenuItem>
-                                        <SidebarMenuButton asChild isActive={isActive("/attendance/master-shift")}>
-                                            <Link href="/modules/attendance/master-shift">
+                                        <SidebarMenuButton asChild isActive={isActive("/shift")}>
+                                            <Link href="/shift">
                                                 <Clock className="mr-2 size-4" />
                                                 <span>Shift Management</span>
                                             </Link>
@@ -391,6 +382,25 @@ export function AppSidebar() {
                         </CollapsibleContent>
                     </SidebarGroup>
                 </Collapsible>
+
+                <SidebarSeparator />
+
+                {/* Integrations (Direct link) */}
+                <SidebarGroup>
+                    <SidebarGroupLabel>Enterprise Connectors</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton asChild isActive={isActive("/integrations")}>
+                                    <Link href="/integrations">
+                                        <Cpu className="mr-2 size-4 text-amber-500" />
+                                        <span>Integrations Studio</span>
+                                    </Link>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
             </SidebarContent>
 
             <SidebarFooter>

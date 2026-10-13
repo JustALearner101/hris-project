@@ -1,4 +1,4 @@
-import { type Process, defaultTasks, deriveStatus } from "@/types/onboarding"
+import { type Process, defaultTasks, deriveStatus } from "@/features/onboarding/types/onboarding"
 
 let processes: Process[] = [
     {

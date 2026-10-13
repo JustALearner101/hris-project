@@ -1,20 +1,81 @@
-# Backend Workflow
+# Backend Workflow Guide (ASP.NET Core 9)
 
-This guide outlines the NestJS 10 specific development flow.
+This guide outlines the backend development flow for `hris-backend` using ASP.NET Core 9 and the `eproc-be` 5-layer modular service pattern.
 
-## Development Workflow
-1. **OpenAPI Spec**: API contract (OpenAPI) must be updated first if the surface changes.
-2. **Implementation**: Implement the service, DTOs, and validators (`class-validator`).
-3. **Database Changes**: Add Prisma schema and generate migrations if the database changes.
-4. **Testing**: Write unit tests (Jest) + integration tests (Supertest).
-5. **Contract Tests**: Add contract tests and smoke tests.
-6. **PR Checks**: Run automated PR checks.
+---
 
-## CI/CD for Backend
-* **PR Pipeline**: Lint, typecheck, unit & integration tests, OpenAPI validation, container build + image scan.
-* **Merge to Main**: Publish container image to the registry, deploy to staging.
-* **Release**: Run `prisma migrate deploy` via a controlled job *before* deploying app containers if a migration is required.
+## 1. Scaffolding New Services
 
-## Runtime Concerns
-* **Probes**: Use Kubernetes readiness and liveness probes.
-* **Graceful Shutdown**: Handle graceful shutdowns to finish inflight jobs (especially critical payroll jobs).
+To create a new backend service (e.g. `Recruitment`, `Payroll`, `Attendance`), run the CLI generator:
+
+```bash
+pnpm create:service <ServiceName>
+```
+
+*Example:*
+```bash
+pnpm create:service Recruitment
+```
+
+### Generated Layer Responsibilities:
+- **`hris-recruitment-be`** (Web API Host):
+  - API Controllers (`Controllers/RecruitmentController.cs`)
+  - Dependency Injection configuration (`Program.cs`)
+  - Swagger UI configuration (`/swagger`)
+- **`hris-recruitment-be.database`** (Data Access):
+  - Entity Models (`Models/`)
+  - Custom Repositories (`Repositories/`)
+  - EF Core `DbContext`
+  - `BaseRepository<T>` and `UnitOfWork` implementations
+- **`hris-recruitment-be.service`** (Business Logic):
+  - Application Service interfaces (`IRecruitmentService.cs`) and implementations (`RecruitmentService.cs`)
+  - Domain rules and event publishing
+- **`hris-recruitment-be.view`** (DTOs & View Models):
+  - Request & Response DTOs (`DTOs/`)
+  - View Models (`ViewModels/`)
+- **`hris-recruitment-be.lib`** (Utilities):
+  - Helper functions and service-specific utilities
+
+---
+
+## 2. Development Workflow
+
+1. **Scaffold Service**: Run `pnpm create:service <ServiceName>` if creating a new domain boundary.
+2. **Define Data Entities**: Add domain entity models under `hris-<name>-be.database/Models/` with clean C# properties and base audit fields (`Status`, `CreatedBy`, `CreatedAt`, `ModifiedBy`, `ModifiedAt`, `IsDeleted`).
+3. **Register DB Set**: Add `DbSet<TEntity>` to `ApplicationDbContext` / `<ServiceName>DbContext`.
+4. **Define View Models & DTOs**: Create DTOs under `hris-<name>-be.view/ViewModels/`.
+5. **Implement Service Logic**: Implement use case business logic under `hris-<name>-be.service/Services/`. Wrap API query/command results using `BuildResponseUtil.Success(...)` to return `DefaultDtoResponse<T>`.
+6. **Create Controller**: Expose HTTP endpoints in `hris-<name>-be/Controllers/`.
+7. **Verify & Build**:
+   ```bash
+   dotnet build hris-backend/Hris.Backend.sln
+   ```
+
+---
+
+## 3. Running & Testing
+
+### Running Locally
+```bash
+# Run backend with Hot Reload & auto-browser launch to Swagger UI
+pnpm dev:backend
+```
+Access Swagger UI at `http://localhost:8080/swagger`.
+
+### Running Tests
+```bash
+dotnet test hris-backend/Hris.Backend.sln
+```
+
+### Monorepo Production Build
+```bash
+pnpm build:backend
+```
+
+---
+
+## 4. Asynchronous Workers & Messaging (MassTransit / RabbitMQ)
+
+For heavy background workloads (e.g. CV parsing, payroll calculations, email notifications):
+- Publish events from your service layer: `publishEndpoint.Publish<CandidateCvUploadedEvent>(...)`.
+- Implement worker consumers in a worker project or background service: `class ProcessCvConsumer : IConsumer<CandidateCvUploadedEvent>`.

@@ -4,17 +4,21 @@ HRIS Monorepo (`hris-project`) is an integrated enterprise Human Resource Inform
 combining a Next.js 15 frontend client (`hris-frontend`) and an ASP.NET Core 9 Web API
 backend (`hris-backend`). The platform delivers core HR operations including employee directory
 management, attendance monitoring, payroll processing, onboarding/offboarding workflows, claim
-reimbursements, and performance tracking. Built with modern full-stack engineering standards,
-the repository provides pnpm workspace orchestration, containerized local execution via Docker
-Compose, and automated multi-job CI/CD pipelines using GitHub Actions.
+reimbursements, performance tracking, and recruitment. Built with modern full-stack engineering
+standards, the repository provides pnpm workspace orchestration, containerized local execution via
+Docker Compose, automated multi-job CI/CD pipelines using GitHub Actions, and automated CLI
+microservice scaffolding.
 
 ## Repository Structure
 
 - `.github/`: Contains root GitHub Actions workflows (`ci-cd.yaml`) for CI testing and deployment.
 - `docs/`: Diataxis-organized documentation (`00-overview/`, `01-getting-started/`,
   `02-architecture/`, `03-guides/`, `04-reference/`). See [docs/README.md](docs/README.md).
-- `hris-backend/`: Holds the ASP.NET Core 9 Web API solution divided into domain and web layers.
+- `hris-backend/`: Holds the ASP.NET Core 9 Web API solution organized under `src/` into modular
+  service packages (`Services/Master`, `Services/Recruitment`, etc.) and cross-cutting modules
+  (`Approval`, `Email`, `Logging`, `Scheduler`, `TokenValidation`).
 - `hris-frontend/`: Houses the Next.js 15 web client built with React 19, Tailwind, and Radix.
+- `scripts/`: Development automation scripts (e.g. `create-service.ps1` for generating new 5-layer backend services).
 
 ## Build & Development Commands
 
@@ -28,8 +32,11 @@ pnpm dev
 # Run frontend development server only
 pnpm dev:client
 
-# Run backend ASP.NET Core Web API server only
+# Run backend ASP.NET Core Web API server with Hot Reload & auto-launching Swagger UI
 pnpm dev:backend
+
+# Generate a new 5-layer backend microservice (e.g. Recruitment, Payroll, Attendance)
+pnpm create:service <ServiceName>
 
 # Build production artifacts for both frontend and backend
 pnpm build
@@ -64,6 +71,7 @@ docker compose --profile dev up --build
   components (`ClockInCard`), and named exports for all non-page components.
 - C# Naming: `PascalCase` for classes, methods, and properties; prefix interfaces with `I`
   (e.g., `IEmployeeService`).
+- DTO Standard: `DefaultDtoResponse<T>` (`Status`, `Data`, `Message`, `Total`) and `DefaultDtoPagingParams`.
 - Constants & Enums: `UPPER_SNAKE_CASE` for environment variables; string literal unions for states.
 - Lint Config: `eslint.config.mjs` in frontend; standard Roslyn analyzers for ASP.NET Core.
 - Commit Message Template:
@@ -81,27 +89,60 @@ docker compose --profile dev up --build
 ```mermaid
 graph TD
     Client["Browser / Next.js 15 Client (hris-frontend)"]
-    API["ASP.NET Core 9 Web API (hris-backend)"]
-    AppLayer["Hris.Application (CQRS / Use Cases)"]
-    InfraLayer["Hris.Infrastructure (EF Core)"]
-    DB[("PostgreSQL 16 Database")]
+    
+    subgraph Backend ["ASP.NET Core 9 Solution (hris-backend)"]
+        subgraph Shared ["src/ (Cross-Cutting Modules)"]
+            Approval["Hris.Approval"]
+            Email["Hris.Email"]
+            Logging["Hris.Logging"]
+            Scheduler["Hris.Scheduler"]
+            TokenVal["Hris.TokenValidation"]
+        end
+
+        subgraph MasterService ["src/Services/Master/"]
+            MasterHost["hris-be (API Host)"]
+            MasterServiceLayer["hris-be.service"]
+            MasterDbLayer["hris-be.database"]
+            MasterViewLayer["hris-be.view"]
+            MasterLibLayer["hris-be.lib"]
+        end
+
+        subgraph RecruitmentService ["src/Services/Recruitment/"]
+            RecruitmentHost["hris-recruitment-be (API Host)"]
+            RecruitmentServiceLayer["hris-recruitment-be.service"]
+            RecruitmentDbLayer["hris-recruitment-be.database"]
+        end
+    end
+
+    DB[("PostgreSQL 16 / InMemory DB")]
     Cache[("Redis 7 Cache")]
     SSO["Keycloak SSO Service"]
 
-    Client -->|REST API / HTTP| API
-    API --> AppLayer
-    AppLayer --> InfraLayer
-    InfraLayer --> DB
-    InfraLayer --> Cache
+    Client -->|REST API / HTTP| MasterHost
+    Client -->|REST API / HTTP| RecruitmentHost
+    MasterHost --> MasterServiceLayer
+    MasterServiceLayer --> MasterDbLayer
+    MasterDbLayer --> DB
+    MasterServiceLayer --> Cache
     Client -->|OIDC Authentication| SSO
-    API -->|JWT Token Validation| SSO
+    MasterHost -->|JWT Token Validation| SSO
 ```
 
-The monorepo separates presentation logic from backend services. The frontend (`hris-frontend`)
-is a Next.js 15 App Router application utilizing SWR for client-side state revalidation and Radix/
-shadcn primitives for UI components. The backend (`hris-backend`) follows Clean Architecture with
-four projects: `Hris.Domain` (core entities), `Hris.Application` (business rules),
-`Hris.Infrastructure` (database and external services), and `Hris.WebAPI` (HTTP endpoints).
+The backend follows a modular microservice directory layout (`eproc-be` structure) under `hris-backend/src/`. Each service (e.g. `Master`, `Recruitment`) is decomposed into 5 projects:
+1. `*-be` (Web API Host & Controllers with auto-enabled Swagger at `/swagger`)
+2. `*-be.database` (DbContext, Domain Entities in `Models/`, Custom Repositories in `Repositories/`, BaseRepository, UnitOfWork)
+3. `*-be.service` (Application Business Logic Services)
+4. `*-be.view` (DTOs in `DTOs/` & View Models in `ViewModels/`)
+5. `*-be.lib` (Utilities & `DefaultDtoResponse<T>`)
+
+The frontend follows a Feature-Driven Architecture under `hris-frontend/features/<feature-name>/`:
+1. `features/<feature>/api/`: SWR data fetching hooks & API mutations (`use-employees.ts`)
+2. `features/<feature>/components/`: Feature-specific UI components (`employee-table.tsx`, `employee-form-dialog.tsx`)
+3. `features/<feature>/types/`: TypeScript DTO interfaces & Zod validation schemas (`employee.ts`)
+4. `features/<feature>/README.md`: Feature-specific documentation & architectural notes
+5. `app/(dashboard)/<feature>/page.tsx`: Lightweight Server Component pages using App Router Route Groups `(dashboard)` for layout isolation.
+6. `lib/api-client.ts`: Centralized fetcher wrapper handling `DefaultDtoResponse<T>` and `NEXT_PUBLIC_API_BASE_URL`.
+
 
 ## Testing Strategy
 
@@ -141,14 +182,12 @@ four projects: `Hris.Domain` (core entities), `Hris.Application` (business rules
 ## Extensibility Hooks
 
 - Frontend Hooks: Custom React hooks under `hris-frontend/hooks/` and SWR fetchers.
-- Backend Middleware: Custom ASP.NET Core middleware in `hris-backend/Hris.WebAPI/Middleware/`.
+- Backend Generator: Use `pnpm create:service <ServiceName>` to scaffold a new 5-layer backend service.
 - Environment Variables:
-  - `NEXT_PUBLIC_API_BASE_URL`: Base URL pointing to the ASP.NET Core API.
+  - `NEXT_PUBLIC_API_BASE_URL`: Base URL pointing to the ASP.NET Core API (`http://localhost:8080/api/v1`).
   - `ASPNETCORE_ENVIRONMENT`: Execution environment (`Development`, `Staging`, `Production`).
   - `DATABASE_URL`: PostgreSQL connection string.
   - `REDIS_URL`: Redis cache connection string.
-- Feature Flags:
-  > TODO: Implement centralized feature flag mechanism for runtime feature toggling.
 
 ## Further Reading
 

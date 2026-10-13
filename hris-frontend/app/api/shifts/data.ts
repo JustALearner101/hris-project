@@ -1,4 +1,4 @@
-import type { Shift, ShiftFilters, ShiftType } from "@/types/shift"
+import type { Shift, ShiftFilters, ShiftType } from "@/features/shift/types/shift"
 
 let seedInitialized = false
 const store: Shift[] = []

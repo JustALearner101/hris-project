@@ -50,7 +50,7 @@ const config: Config = {
   darkMode: ['class'],
   content: [
     './src/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
+    './README/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}'
   ],
   theme: { extend: {} },

@@ -40,7 +40,7 @@ pnpm dlx sb@7 init --type react_scripts
 ```typescript
 import type { StorybookConfig } from '@storybook/react-webpack'
 const config: StorybookConfig = {
-  stories: ['../src/components/**/*.stories.@(ts|tsx)'],
+  stories: ['../src/README/**/*.stories.@(ts|tsx)'],
   staticDirs: ['../public'],
   addons: [
     '@storybook/addon-essentials',

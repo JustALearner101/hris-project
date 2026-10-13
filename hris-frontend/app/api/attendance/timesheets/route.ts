@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import type { TimesheetRow, AttendanceStatus, PagedResponse } from "@/types/attendance"
+import type { TimesheetRow, AttendanceStatus, PagedResponse } from "@/features/attendance/types/attendance"
 
 // in-memory seed
 let seeded = false

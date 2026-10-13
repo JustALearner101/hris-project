@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.11" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\hris-recruitment-be.service\hris-recruitment-be.service.csproj" />
+    <ProjectReference Include="..\hris-recruitment-be.database\hris-recruitment-be.database.csproj" />
+    <ProjectReference Include="..\hris-recruitment-be.view\hris-recruitment-be.view.csproj" />
+    <ProjectReference Include="..\hris-recruitment-be.lib\hris-recruitment-be.util.csproj" />
+  </ItemGroup>
+</Project>

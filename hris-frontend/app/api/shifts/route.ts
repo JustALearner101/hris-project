@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { listShifts, createShift } from "./data"
-import type { Shift, ShiftFilters, ShiftType } from "@/types/shift"
+import type { Shift, ShiftFilters, ShiftType } from "@/features/shift/types/shift"
 
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url)

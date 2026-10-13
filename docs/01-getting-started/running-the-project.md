@@ -1,8 +1,8 @@
 # Running the Project
 
-## Current Setup (Next.js 15 + ASP.NET Core 9)
+## Current Setup (Next.js 15 + ASP.NET Core 9 Modular Microservices)
 
-Based on the actual project architecture, here are the steps to run the complete stack.
+Here are the step-by-step instructions to run, build, and extend the HRIS application stack.
 
 ### 1. Install Dependencies
 Run from the repository root:
@@ -17,17 +17,18 @@ pnpm install
 pnpm dev
 ```
 - **Frontend**: `http://localhost:3000`
-- **Backend API**: `http://localhost:8080` (Swagger UI: `http://localhost:8080/swagger`)
+- **Backend API**: `http://localhost:8080` (Swagger UI opens automatically at `http://localhost:8080/swagger`)
 
 #### Option 2: Run Services Separately
 - **Frontend Only**:
   ```bash
   pnpm dev:client
   ```
-- **Backend Only**:
+- **Backend Only (with Hot Reload & Auto-Browser Open)**:
   ```bash
   pnpm dev:backend
   ```
+  *This executes `dotnet watch` on `hris-backend/src/Services/Master/hris-be`, automatically opening your default web browser to the Swagger UI (`http://localhost:8080/swagger`).*
 
 #### Option 3: Using Docker Compose Stack
 To run the full stack (including Postgres, Redis, Keycloak) using Docker Compose:
@@ -37,26 +38,28 @@ docker compose --profile dev up --build
 
 ---
 
-## Historical Setup (NestJS Architecture)
+## Creating New Backend Microservices / Services
 
-If referencing the historical documentation, the end-to-end sequence for development was:
+The backend architecture uses an automated scaffolding tool. To generate a new 5-layer microservice (e.g. `Recruitment`, `Payroll`, `Attendance`):
 
 ```bash
-# 1) Start infra services
-pnpm dev:up
-
-# 2) Start API
-cd apps/api
-pnpm start:dev
-
-# 3) Migrate database
-pnpm prisma migrate dev
-
-# 4) Start Web
-cd ../../apps/web
-pnpm dev
+pnpm create:service <ServiceName>
 ```
-Visiting `http://localhost:3000/employees` would show a basic JSON response with `{ total, items: [] }` (empty if unseeded).
+*Example:*
+```bash
+pnpm create:service Recruitment
+```
+
+### What gets generated automatically:
+1. Directory structure under `hris-backend/src/Services/Recruitment/`.
+2. All 5 project `.csproj` layers:
+   - `hris-recruitment-be` (Web API Host)
+   - `hris-recruitment-be.database` (DbContext & Models)
+   - `hris-recruitment-be.service` (Business Logic)
+   - `hris-recruitment-be.view` (ViewModels & DTOs)
+   - `hris-recruitment-be.lib` (Utilities)
+3. Initial starter C# files (`Program.cs`, `RecruitmentController.cs`, `RecruitmentDbContext.cs`, `RecruitmentItem.cs`).
+4. Automatic solution registration into `Hris.Backend.sln`.
 
 ---
 
@@ -64,7 +67,8 @@ Visiting `http://localhost:3000/employees` would show a basic JSON response with
 
 Verify that your environment is running properly:
 - [ ] Node 20 or higher is active (`node -v`)
-- [ ] `docker compose ps` shows services (postgres/redis/kafka/keycloak) are up
-- [ ] Backend API Swagger documentation is accessible
+- [ ] .NET 9 SDK is installed (`dotnet --version`)
+- [ ] Backend API Swagger documentation is accessible at `http://localhost:8080/swagger`
 - [ ] Next.js Frontend is accessible at `http://localhost:3000`
-- [ ] The API successfully returns data (e.g., from the `/employees` endpoint)
+- [ ] `pnpm create:service <ServiceName>` successfully scaffolds new backend services
+- [ ] The API successfully returns formatted data wrapped in `DefaultDtoResponse<T>`

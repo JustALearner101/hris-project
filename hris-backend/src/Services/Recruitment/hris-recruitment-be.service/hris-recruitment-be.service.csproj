@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\hris-recruitment-be.database\hris-recruitment-be.database.csproj" />
+    <ProjectReference Include="..\hris-recruitment-be.view\hris-recruitment-be.view.csproj" />
+    <ProjectReference Include="..\hris-recruitment-be.lib\hris-recruitment-be.util.csproj" />
+  </ItemGroup>
+</Project>

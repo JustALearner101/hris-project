@@ -185,7 +185,7 @@ for cross-directory imports:
 
 ```tsx
 // ✅ Use path alias
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/README/ui/card";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import type { Employee } from "@/types/employee";
@@ -196,7 +196,7 @@ import type { Employee } from "@/types/employee";
 Use relative imports **only** within the same component directory:
 
 ```tsx
-// Inside components/dashboard-component/
+// Inside README/dashboard-component/
 import { ClockInCard } from "./clock-in-card";
 ```
 
@@ -220,10 +220,10 @@ import useSWR from "swr";
 import { format } from "date-fns";
 import { Clock, Users } from "lucide-react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/README/ui/card";
+import { Button } from "@/README/ui/button";
 
-import { AppSidebar } from "@/components/app-sidebar/app-sidebar";
+import { AppSidebar } from "@/README/app-sidebar/app-sidebar";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
@@ -352,9 +352,9 @@ Module pages use a shared layout structure:
 
 ```tsx
 // app/modules/<feature>/layout.tsx
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar/app-sidebar";
-import { Topbar } from "@/components/topbar/topbar";
+import { SidebarProvider } from "@/README/ui/sidebar";
+import { AppSidebar } from "@/README/app-sidebar/app-sidebar";
+import { Topbar } from "@/README/topbar/topbar";
 
 export default function FeatureLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -485,9 +485,9 @@ from the feature component (which uses named export and `"use client"`).
     "cssVariables": true
   },
   "aliases": {
-    "components": "@/components",
+    "components": "@/README",
     "utils": "@/lib/utils",
-    "ui": "@/components/ui",
+    "ui": "@/README/ui",
     "lib": "@/lib",
     "hooks": "@/hooks"
   },

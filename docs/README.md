@@ -51,6 +51,7 @@ How-to guides for specific development tasks and workflows.
 |----------|-------------|
 | [Development Workflow](03-guides/development-workflow.md) | Branching strategy, PR requirements, local dev sequence, sprint deliverables, conventions |
 | [Frontend Workflow](03-guides/frontend-workflow.md) | Next.js specific dev flow: Storybook prototyping, Server/Client components, React Query, MSW |
+| [Data Table Guide](03-guides/data-table.md) | Architectural details and blueprints for client-side and server-side composable tables |
 | [Backend Workflow](03-guides/backend-workflow.md) | Backend-specific dev flow: OpenAPI-first, DTOs, Prisma migrations, K8s probes, graceful shutdown |
 | [Database Migration](03-guides/database-migration.md) | Zero-downtime migration policy, 3-step non-additive change pattern, Prisma commands |
 | [Storybook and MSW](03-guides/storybook-and-msw.md) | Component-first development with Storybook 7, API mocking with MSW, Tailwind integration |
