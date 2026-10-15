@@ -45,6 +45,16 @@ The configuration uses Docker profiles to isolate development and production env
 - **Dependencies:** `db`, `redis`, `keycloak`.
 - **Profiles:** `dev`, `prod`
 
+### AI Service
+
+#### `ai` (RAG / FastAPI)
+- **Image:** Built from `./hris-ai` (tagged as `hris-ai:latest`).
+- **Ports:** `8000:8000`
+- **Environment:** `APP_ENV`, `LLM_PROVIDER`, `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL`, `MODEL_CACHE_DIR`.
+- **Volumes:** Mounts host `./hris-ai/data` to `/app/data` (vector store + BGE-M3 model cache persist on the host).
+- **Healthcheck:** `GET /api/health` every 30s (30s start period).
+- **Profiles:** `dev`, `prod`
+
 ### Infrastructure Services
 
 #### `db` (PostgreSQL)

@@ -6,7 +6,10 @@
   "scripts": {
     "dev:client": "pnpm --filter ./hris-frontend dev",
     "dev:backend": "dotnet watch --project hris-backend/src/Services/Master/hris-be",
-    "dev": "concurrently -n \"CLIENT,BACKEND\" -c \"cyan,magenta\" \"pnpm dev:client\" \"pnpm dev:backend\"",
+    "dev:ai": "uv run --directory hris-ai uvicorn src.api.main:app --reload --port 8000",
+    "dev": "concurrently -n \"CLIENT,BACKEND,AI\" -c \"cyan,magenta,yellow\" \"pnpm dev:client\" \"pnpm dev:backend\" \"pnpm dev:ai\"",
+    "test:ai": "uv run --directory hris-ai pytest",
+    "ai:index": "uv run --directory hris-ai python scripts/index_all_documents.py",
     "build:client": "pnpm --filter ./hris-frontend build",
     "build:backend": "dotnet build hris-backend/Hris.Backend.sln",
     "build": "pnpm build:client && pnpm build:backend",

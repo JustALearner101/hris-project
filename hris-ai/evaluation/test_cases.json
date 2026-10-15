@@ -1,0 +1,82 @@
+[
+  {
+    "id": "TC-001",
+    "category": "HR - Leave Policy",
+    "query": "Berapa hari kuota hak cuti tahunan bagi karyawan tetap di Indosat Ooredoo Hutchison?",
+    "target_doc": "DOC_IOH_POL_055_Kebijakan_Cuti_Kompensasi_dan_Benefit.pdf",
+    "expected_answer_summary": "Karyawan tetap berhak atas cuti tahunan sebanyak 12 (dua belas) hari kerja.",
+    "expected_abstention": false
+  },
+  {
+    "id": "TC-002",
+    "category": "HR - Employment Status",
+    "query": "Apa definisi karyawan menurut Kebijakan Manajemen SDM Terintegrasi IOH/HR/POL/2026/099?",
+    "target_doc": "DOC_IOH_HR_POL_2026_099_Kebijakan_SDM_Komprehensif_7_Halaman.pdf",
+    "expected_answer_summary": "Karyawan adalah seluruh tenaga kerja berstatus tetap (PKWTT) maupun kontrak (PKWT) yang memiliki ikatan kerja sah dengan PT Indosat Ooredoo Hutchison Tbk.",
+    "expected_abstention": false
+  },
+  {
+    "id": "TC-003",
+    "category": "HR - Onboarding",
+    "query": "Dokumen resmi apa yang menjadi pedoman pelaksana lebih lanjut dari Prosedur Onboarding Karyawan Baru?",
+    "target_doc": "DOC_IOH_HR_SOP_061_Prosedur_Onboarding_Karyawan_Baru.pdf",
+    "expected_answer_summary": "Ketentuan lebih lanjut mengacu pada dokumen resmi IOH/HR/POL/2026/031.",
+    "expected_abstention": false
+  },
+  {
+    "id": "TC-004",
+    "category": "HR - Resign & Exit Clearance",
+    "query": "Berapa lama batas waktu notice period pengunduran diri untuk level Staff, Specialist, dan Officer menurut SOP Exit Clearance?",
+    "target_doc": "DOC_IOH_SOP_018_Panduan_Pengunduran_Diri_dan_Exit_Clearance.pdf",
+    "expected_answer_summary": "Masa pemberitahuan awal (Notice Period) adalah minimal 30 (tiga puluh) hari kalender.",
+    "expected_abstention": false
+  },
+  {
+    "id": "TC-005",
+    "category": "IT - Access Control",
+    "query": "Mengapa evaluasi berkala terhadap privilege akses wajib dilakukan menurut kebijakan IT?",
+    "target_doc": "DOC_IOH_IT_POL_401_Kebijakan_Access_Control_dan_Manajemen_Akses.pdf",
+    "expected_answer_summary": "Untuk menjamin efektivitas ruang lingkup dan definisi serta mitigasi risiko terkait backup.",
+    "expected_abstention": false
+  },
+  {
+    "id": "TC-006",
+    "category": "IT - Asset Management",
+    "query": "Kepada siapa pencatatan dan pelaporan atas kebocoran wajib disampaikan menurut kebijakan pengelolaan IT Asset?",
+    "target_doc": "DOC_IOH_IT_POL_404_Kebijakan_Pengelolaan_IT_Asset.pdf",
+    "expected_answer_summary": "Pencatatan dan pelaporan atas kebocoran wajib disampaikan kepada pimpinan divisi.",
+    "expected_abstention": false
+  },
+  {
+    "id": "TC-007",
+    "category": "Engineering - Downtime Site",
+    "query": "Kepada siapa pencatatan dan pelaporan teknisi wajib disampaikan saat terjadi downtime site?",
+    "target_doc": "DOC_IOH_ENG_SOP_103_Prosedur_Eskalasi_dan_Restorasi_Downtime_Site.pdf",
+    "expected_answer_summary": "Pencatatan dan pelaporan teknisi wajib disampaikan kepada pimpinan divisi.",
+    "expected_abstention": false
+  },
+  {
+    "id": "TC-008",
+    "category": "Finance - Invoice Payment",
+    "query": "Aspek apa yang wajib dipastikan oleh setiap unit terkait dalam prosedur verifikasi dan pembayaran invoice?",
+    "target_doc": "DOC_IOH_FIN_SOP_202_Prosedur_Verifikasi_dan_Pembayaran_Invoice.pdf",
+    "expected_answer_summary": "Setiap unit terkait wajib memastikan aspek anggaran dikelola sesuai ketentuan prosedur pelaksanaan yang berlaku di lingkungan perusahaan.",
+    "expected_abstention": false
+  },
+  {
+    "id": "TC-009",
+    "category": "Legal - Data Privacy",
+    "query": "Siapa saja yang terikat oleh Kebijakan Perlindungan Data dan Privasi di IOH?",
+    "target_doc": "DOC_IOH_LEG_POL_303_Kebijakan_Perlindungan_Data_dan_Privasi.pdf",
+    "expected_answer_summary": "Ketentuan ruang lingkup dan definisi ini berlaku bagi seluruh karyawan tanpa mengurangi aspek risiko hukum yang diatur dalam dokumen lain.",
+    "expected_abstention": false
+  },
+  {
+    "id": "TC-010",
+    "category": "Negative Test - Out-of-Domain Abstention",
+    "query": "Bagaimana cara membuat bumbu rendang sapi khas Padang yang empuk dan lezat?",
+    "target_doc": null,
+    "expected_answer_summary": "Sistem wajib menolak menjawab (abstain) dan menyatakan informasi tidak ditemukan dalam dokumen.",
+    "expected_abstention": true
+  }
+]

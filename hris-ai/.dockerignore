@@ -1,0 +1,31 @@
+# Version control
+.git
+.gitignore
+
+# Python
+.venv
+__pycache__
+*.py[cod]
+.pytest_cache
+.coverage
+htmlcov
+
+# Environment & credentials
+.env
+.env.local
+.env.*.local
+
+# Data (mounted as a volume at runtime)
+data
+
+# Local-only artifacts
+tests
+docs
+evaluation
+README.md
+
+# Editors & OS
+.idea
+.vscode
+.DS_Store
+Thumbs.db

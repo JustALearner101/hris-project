@@ -53,9 +53,31 @@ jobs:
       - name: Build Frontend
         run: pnpm --filter hris-frontend build
 
+  ai-service-ci:
+    name: AI Service CI (Python 3.12 / uv)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: hris-ai/uv.lock
+
+      - name: Install Dependencies
+        run: uv sync --frozen --directory hris-ai
+
+      - name: Run Tests
+        run: uv run --directory hris-ai pytest
+
+      - name: Verify Scaffold
+        run: uv run --directory hris-ai python scripts/verify_scaffold.py
+
   docker-build-push:
     name: Docker Build & Push
-    needs: [backend-ci, frontend-ci]
+    needs: [backend-ci, frontend-ci, ai-service-ci]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
@@ -82,3 +104,10 @@ jobs:
           context: ./hris-backend
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/hris-api:latest
+
+      - name: Build and Push AI Service Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./hris-ai
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/hris-ai:latest

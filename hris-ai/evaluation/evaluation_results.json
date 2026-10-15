@@ -1,0 +1,262 @@
+{
+  "metrics": {
+    "total_cases": 10,
+    "target_accuracy_pct": 88.88888888888889,
+    "abstention_accuracy_pct": 100.0
+  },
+  "results": [
+    {
+      "id": "TC-001",
+      "category": "HR - Leave Policy",
+      "query": "Berapa hari kuota hak cuti tahunan bagi karyawan tetap di Indosat Ooredoo Hutchison?",
+      "target_doc": "DOC_IOH_POL_055_Kebijakan_Cuti_Kompensasi_dan_Benefit.pdf",
+      "target_matched": true,
+      "expected_abstention": false,
+      "actual_abstention": false,
+      "abstention_match": true,
+      "answer": "Berdasarkan dokumen kebijakan SDM PT Indosat Ooredoo Hutchison, karyawan tetap berhak atas **Cuti Tahunan sebanyak 12 (dua belas) hari kerja** setelah genap memiliki masa kerja 12 bulan berturut-turut [1]. Hal ini juga dikonfirmasi dalam dokumen kebijakan cuti lainnya yang menyatakan bahwa setiap karyawan tetap berhak atas cuti tahunan sebanyak 12 (dua belas) hari kerja per tahun kalender setelah memiliki masa kerja minimal 1 (satu) tahun secara terus-menerus [4].",
+      "citations_count": 2,
+      "citations": [
+        {
+          "doc_id": "doc_cb5e09dfcb77a5a6",
+          "chunk_id": "doc_cb5e09dfcb77a5a6#c0017",
+          "score": 0.7508,
+          "snippet": "PT INDOSAT OOREDOO HUTCHISON Tbk\nIOH/HR/POL/2026/099 | BAB V - CUTI & KESEHATAN\nDokumen ini sah milik PT Indosat Ooredoo Hutchison Tbk - Strictly Internal Use Only\nHalaman 5 dari 7\nBAB V: HAK CUTI, PE..."
+        },
+        {
+          "doc_id": "doc_6cdeba192c60806a",
+          "chunk_id": "doc_6cdeba192c60806a#c0001",
+          "score": 0.5902,
+          "snippet": "BAB I: HAK CUTI TAHUNAN DAN ATURAN PENGGUNAAN\nPasal 1: Kuota Hak Cuti Tahunan\n1.1 Setiap karyawan tetap berhak atas cuti tahunan sebanyak 12 (dua belas) hari kerja per tahun kalender setelah memiliki\n..."
+        }
+      ],
+      "retrieval_latency_sec": 0.21,
+      "generation_latency_sec": 5.813,
+      "total_latency_sec": 6.024
+    },
+    {
+      "id": "TC-002",
+      "category": "HR - Employment Status",
+      "query": "Apa definisi karyawan menurut Kebijakan Manajemen SDM Terintegrasi IOH/HR/POL/2026/099?",
+      "target_doc": "DOC_IOH_HR_POL_2026_099_Kebijakan_SDM_Komprehensif_7_Halaman.pdf",
+      "target_matched": true,
+      "expected_abstention": false,
+      "actual_abstention": false,
+      "abstention_match": true,
+      "answer": "Menurut Kebijakan Manajemen SDM Terintegrasi (IOH/HR/POL/2026/099), **karyawan** didefinisikan sebagai seluruh tenaga kerja berstatus tetap (PKWTT) maupun kontrak (PKWT) yang memiliki ikatan kerja sah dengan PT Indosat Ooredoo Hutchison Tbk [1].",
+      "citations_count": 1,
+      "citations": [
+        {
+          "doc_id": "doc_cb5e09dfcb77a5a6",
+          "chunk_id": "doc_cb5e09dfcb77a5a6#c0001",
+          "score": 0.6015,
+          "snippet": "Kebijakan Manajemen Sumber Daya Manusia Terintegrasi dan Tata Kelola\nTalenta\nBAB I: KETENTUAN UMUM DAN PRINSIP DASAR\nPasal 1 - Definisi dan Batasan Istilah\n1.1 Karyawan adalah seluruh tenaga kerja ber..."
+        }
+      ],
+      "retrieval_latency_sec": 0.122,
+      "generation_latency_sec": 4.247,
+      "total_latency_sec": 4.369
+    },
+    {
+      "id": "TC-003",
+      "category": "HR - Onboarding",
+      "query": "Dokumen resmi apa yang menjadi pedoman pelaksana lebih lanjut dari Prosedur Onboarding Karyawan Baru?",
+      "target_doc": "DOC_IOH_HR_SOP_061_Prosedur_Onboarding_Karyawan_Baru.pdf",
+      "target_matched": true,
+      "expected_abstention": false,
+      "actual_abstention": false,
+      "abstention_match": true,
+      "answer": "Berdasarkan konteks yang tersedia, ketentuan lebih lanjut dari dokumen **Prosedur Onboarding Karyawan Baru (IOH/HR/SOP/2026/061)** mengacu pada dokumen resmi bernomor **IOH/HR/POL/2026/031** yang berlaku sebagai pedoman pelaksana [3].\n\nCatatan: Konteks yang tersedia hanya menyebutkan nomor dokumen (IOH/HR/POL/2026/031), namun tidak mencantumkan judul atau nama lengkap dokumen tersebut.",
+      "citations_count": 1,
+      "citations": [
+        {
+          "doc_id": "doc_c8201dbd237fa626",
+          "chunk_id": "doc_c8201dbd237fa626#c0005",
+          "score": 0.5906,
+          "snippet": "Ketentuan lebih lanjut mengacu pada dokumen resmi IOH/HR/POL/2026/031 yang berlaku sebagai\npedoman pelaksana."
+        }
+      ],
+      "retrieval_latency_sec": 0.109,
+      "generation_latency_sec": 26.263,
+      "total_latency_sec": 26.372
+    },
+    {
+      "id": "TC-004",
+      "category": "HR - Resign & Exit Clearance",
+      "query": "Berapa lama batas waktu notice period pengunduran diri untuk level Staff, Specialist, dan Officer menurut SOP Exit Clearance?",
+      "target_doc": "DOC_IOH_SOP_018_Panduan_Pengunduran_Diri_dan_Exit_Clearance.pdf",
+      "target_matched": true,
+      "expected_abstention": false,
+      "actual_abstention": false,
+      "abstention_match": true,
+      "answer": "Menurut SOP Panduan Pengunduran Diri dan Exit Clearance, untuk level **Staff, Specialist, dan Officer**, masa pemberitahuan awal (Notice Period) adalah **minimal 30 (tiga puluh) hari kalender** sebelum tanggal efektif berhenti kerja [1].\n\nSebagai informasi tambahan, khusus untuk level Manager, Vice President, Lead Architect, atau pemegang peran kritikal, masa Notice Period yang dipersyaratkan lebih lama, yaitu minimal 60 (enam puluh) hari kalender [1].",
+      "citations_count": 1,
+      "citations": [
+        {
+          "doc_id": "doc_a1cedddc64ccd5d9",
+          "chunk_id": "doc_a1cedddc64ccd5d9#c0002",
+          "score": 0.6784,
+          "snippet": "untuk memastikan rencana transisi kerja.\nPasal 2: Ketentuan Batas Waktu Notice Period\n2.1 Untuk level Staff, Specialist, dan Officer, masa pemberitahuan awal (Notice Period) adalah minimal 30 (tiga pu..."
+        }
+      ],
+      "retrieval_latency_sec": 0.119,
+      "generation_latency_sec": 6.822,
+      "total_latency_sec": 6.941
+    },
+    {
+      "id": "TC-005",
+      "category": "IT - Access Control",
+      "query": "Mengapa evaluasi berkala terhadap privilege akses wajib dilakukan menurut kebijakan IT?",
+      "target_doc": "DOC_IOH_IT_POL_401_Kebijakan_Access_Control_dan_Manajemen_Akses.pdf",
+      "target_matched": true,
+      "expected_abstention": false,
+      "actual_abstention": false,
+      "abstention_match": true,
+      "answer": "Menurut dokumen kebijakan IT PT Indosat Ooredoo Hutchison, evaluasi berkala terhadap privilege akses dilakukan dengan tujuan utama sebagai berikut:\n\n1. **Menjamin efektivitas ketentuan yang berlaku** — Evaluasi berkala dilakukan untuk memastikan efektivitas ketentuan umum yang ditetapkan dalam kebijakan/prosedur terkait [1].\n\n2. **Mitigasi risiko terkait backup** — Salah satu alasan utama evaluasi privilege adalah untuk memitigasi risiko yang berkaitan dengan proses backup data [1][2][3].\n\n3. **Menjamin efektivitas ruang lingkup dan definisi** — Dalam Kebijakan Access Control dan Manajemen Akses (IOH/IT/POL/2026/401) serta Kebijakan Pengelolaan IT Asset (IOH/IT/POL/2026/404), evaluasi berkala dilakukan untuk menjamin efektivitas ruang lingkup dan definisi yang berlaku [3][4].\n\n4. **Menjamin efektivitas sanksi dan konsekuensi** — Dalam Prosedur Change Management Aplikasi (SOP 402), evaluasi berkala privilege juga dilakukan untuk menjamin efektivitas aspek sanksi dan konsekuensi serta mitigasi risiko terkait backup [2].\n\nSingkatnya, evaluasi berkala terhadap privilege wajib dilakukan untuk **menjamin efektivitas ketentuan/ruang lingkup kebijakan yang berlaku** dan sebagai bagian dari **mitigasi risiko terkait backup** [1][2][3][4].",
+      "citations_count": 4,
+      "citations": [
+        {
+          "doc_id": "doc_9d7cd35051ddb53d",
+          "chunk_id": "doc_9d7cd35051ddb53d#c0001",
+          "score": 0.6355,
+          "snippet": "ticket yang diatur dalam dokumen lain.\n1.2 Setiap unit terkait wajib memastikan aspek akses dikelola sesuai ketentuan ruang lingkup dan definisi\nyang berlaku di lingkungan perusahaan.\nPasal 2: Ketentu..."
+        },
+        {
+          "doc_id": "doc_68d91d5f6f5f9f36",
+          "chunk_id": "doc_68d91d5f6f5f9f36#c0003",
+          "score": 0.6258,
+          "snippet": "mitigasi risiko terkait restorasi data.\n1.2.2 Sanksi dan Konsekuensi\nEvaluasi berkala terhadap privilege dilakukan untuk menjamin efektivitas sanksi dan konsekuensi serta\nmitigasi risiko terkait backu..."
+        },
+        {
+          "doc_id": "doc_759447b48dd4eec3",
+          "chunk_id": "doc_759447b48dd4eec3#c0000",
+          "score": 0.6173,
+          "snippet": "ORGANISASI: PT INDOSAT OOREDOO HUTCHISON\nNOMOR DOKUMEN: IOH/IT/POL/2026/404\nDIVISI: Information Technology\nKATEGORI: IT Security & Infrastructure\nREVISI / TANGGAL: Rev 1.0 | 01 Juli 2026\nKLASIFIKASI: ..."
+        },
+        {
+          "doc_id": "doc_534a29575826f3b0",
+          "chunk_id": "doc_534a29575826f3b0#c0000",
+          "score": 0.6132,
+          "snippet": "ORGANISASI: PT INDOSAT OOREDOO HUTCHISON\nNOMOR DOKUMEN: IOH/IT/POL/2026/401\nDIVISI: Information Technology\nKATEGORI: IT Security & Infrastructure\nREVISI / TANGGAL: Rev 1.0 | 01 Juli 2026\nKLASIFIKASI: ..."
+        }
+      ],
+      "retrieval_latency_sec": 0.121,
+      "generation_latency_sec": 18.051,
+      "total_latency_sec": 18.171
+    },
+    {
+      "id": "TC-006",
+      "category": "IT - Asset Management",
+      "query": "Kepada siapa pencatatan dan pelaporan atas kebocoran wajib disampaikan menurut kebijakan pengelolaan IT Asset?",
+      "target_doc": "DOC_IOH_IT_POL_404_Kebijakan_Pengelolaan_IT_Asset.pdf",
+      "target_matched": true,
+      "expected_abstention": false,
+      "actual_abstention": false,
+      "abstention_match": true,
+      "answer": "Menurut Kebijakan Pengelolaan IT Asset, pencatatan dan pelaporan atas kebocoran wajib disampaikan kepada **pimpinan divisi** sebagai bagian dari ruang lingkup dan definisi [1].",
+      "citations_count": 1,
+      "citations": [
+        {
+          "doc_id": "doc_759447b48dd4eec3",
+          "chunk_id": "doc_759447b48dd4eec3#c0001",
+          "score": 0.6048,
+          "snippet": "mitigasi risiko terkait backup.\nKoordinasi antar pemangku kepentingan diperlukan agar pengelolaan patch dan server berjalan konsisten\ndengan ruang lingkup dan definisi.\nPencatatan dan pelaporan atas k..."
+        }
+      ],
+      "retrieval_latency_sec": 0.183,
+      "generation_latency_sec": 3.439,
+      "total_latency_sec": 3.622
+    },
+    {
+      "id": "TC-007",
+      "category": "Engineering - Downtime Site",
+      "query": "Kepada siapa pencatatan dan pelaporan teknisi wajib disampaikan saat terjadi downtime site?",
+      "target_doc": "DOC_IOH_ENG_SOP_103_Prosedur_Eskalasi_dan_Restorasi_Downtime_Site.pdf",
+      "target_matched": false,
+      "expected_abstention": false,
+      "actual_abstention": false,
+      "abstention_match": true,
+      "answer": "Pencatatan dan pelaporan atas teknisi wajib disampaikan kepada **pimpinan divisi**, sebagai bagian dari tanggung jawab dan kewenangan [1]. Hal ini sejalan dengan ketentuan pelaporan atas restorasi (terkait tower dan downtime) yang juga wajib disampaikan kepada pimpinan divisi [2].\n\n**Sumber:**\n- [1] DOC_IOH_ENG_GUIDE_105_Pedoman_Manajemen_Vendor_Teknik.pdf, Halaman 2\n- [2] DOC_IOH_ENG_SOP_102_Prosedur_Penanganan_Incident_Jaringan.pdf, Halaman 1",
+      "citations_count": 2,
+      "citations": [
+        {
+          "doc_id": "doc_6b768861ba5d39fe",
+          "chunk_id": "doc_6b768861ba5d39fe#c0007",
+          "score": 0.5988,
+          "snippet": "BAB III: TANGGUNG JAWAB DAN KEWENANGAN\nBAGIAN I\nPasal 9: Tanggung Jawab dan Kewenangan\nPencatatan dan pelaporan atas teknisi wajib disampaikan kepada pimpinan divisi sebagai bagian dari\ntanggung jawab..."
+        },
+        {
+          "doc_id": "doc_6f79dceb608af99a",
+          "chunk_id": "doc_6f79dceb608af99a#c0003",
+          "score": 0.5984,
+          "snippet": "berlaku di lingkungan perusahaan.\nPelaksanaan sanksi dan konsekuensi dilakukan secara berjenjang dengan mempertimbangkan aspek tower\ndan downtime secara berkesinambungan.\nBAB II: KETENTUAN UMUM\n2.1 Ta..."
+        }
+      ],
+      "retrieval_latency_sec": 0.139,
+      "generation_latency_sec": 7.562,
+      "total_latency_sec": 7.701
+    },
+    {
+      "id": "TC-008",
+      "category": "Finance - Invoice Payment",
+      "query": "Aspek apa yang wajib dipastikan oleh setiap unit terkait dalam prosedur verifikasi dan pembayaran invoice?",
+      "target_doc": "DOC_IOH_FIN_SOP_202_Prosedur_Verifikasi_dan_Pembayaran_Invoice.pdf",
+      "target_matched": true,
+      "expected_abstention": false,
+      "actual_abstention": false,
+      "abstention_match": true,
+      "answer": "Berdasarkan dokumen **Prosedur Verifikasi dan Pembayaran Invoice** (IOH/FIN/SOP/2026/202), setiap unit terkait wajib memastikan **aspek anggaran** dikelola sesuai ketentuan prosedur pelaksanaan [2].",
+      "citations_count": 1,
+      "citations": [
+        {
+          "doc_id": "doc_d02208e7c2d03ed1",
+          "chunk_id": "doc_d02208e7c2d03ed1#c0000",
+          "score": 0.6651,
+          "snippet": "ORGANISASI: PT INDOSAT OOREDOO HUTCHISON\nNOMOR DOKUMEN: IOH/FIN/SOP/2026/202\nDIVISI: Finance & Accounting\nKATEGORI: Finance & Procurement\nREVISI / TANGGAL: Rev 1.0 | 01 Juli 2026\nKLASIFIKASI: INTERNAL..."
+        }
+      ],
+      "retrieval_latency_sec": 0.141,
+      "generation_latency_sec": 9.16,
+      "total_latency_sec": 9.301
+    },
+    {
+      "id": "TC-009",
+      "category": "Legal - Data Privacy",
+      "query": "Siapa saja yang terikat oleh Kebijakan Perlindungan Data dan Privasi di IOH?",
+      "target_doc": "DOC_IOH_LEG_POL_303_Kebijakan_Perlindungan_Data_dan_Privasi.pdf",
+      "target_matched": true,
+      "expected_abstention": false,
+      "actual_abstention": false,
+      "abstention_match": true,
+      "answer": "Berdasarkan konteks yang tersedia, Kebijakan Perlindungan Data dan Privasi PT Indosat Ooredoo Hutchison (dokumen IOH/LEG/POL/2026/303) berlaku bagi **seluruh karyawan**, tanpa mengurangi aspek risiko hukum yang diatur dalam dokumen lain [1].",
+      "citations_count": 1,
+      "citations": [
+        {
+          "doc_id": "doc_938918d0500d469d",
+          "chunk_id": "doc_938918d0500d469d#c0000",
+          "score": 0.5585,
+          "snippet": "ORGANISASI: PT INDOSAT OOREDOO HUTCHISON\nNOMOR DOKUMEN: IOH/LEG/POL/2026/303\nDIVISI: Legal & Compliance\nKATEGORI: Legal & Compliance\nREVISI / TANGGAL: Rev 1.0 | 01 Juli 2026\nKLASIFIKASI: INTERNAL CONF..."
+        }
+      ],
+      "retrieval_latency_sec": 0.129,
+      "generation_latency_sec": 4.26,
+      "total_latency_sec": 4.389
+    },
+    {
+      "id": "TC-010",
+      "category": "Negative Test - Out-of-Domain Abstention",
+      "query": "Bagaimana cara membuat bumbu rendang sapi khas Padang yang empuk dan lezat?",
+      "target_doc": null,
+      "target_matched": null,
+      "expected_abstention": true,
+      "actual_abstention": true,
+      "abstention_match": true,
+      "answer": "Maaf, informasi yang dicari tidak ditemukan dalam konteks dokumen yang tersedia.",
+      "citations_count": 0,
+      "citations": [],
+      "retrieval_latency_sec": 0.13,
+      "generation_latency_sec": 2.961,
+      "total_latency_sec": 3.092
+    }
+  ]
+}

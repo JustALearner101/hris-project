@@ -1,13 +1,13 @@
 # Project Overview
 
 HRIS Monorepo (`hris-project`) is an integrated enterprise Human Resource Information System
-combining a Next.js 15 frontend client (`hris-frontend`) and an ASP.NET Core 9 Web API
-backend (`hris-backend`). The platform delivers core HR operations including employee directory
-management, attendance monitoring, payroll processing, onboarding/offboarding workflows, claim
-reimbursements, performance tracking, and recruitment. Built with modern full-stack engineering
-standards, the repository provides pnpm workspace orchestration, containerized local execution via
-Docker Compose, automated multi-job CI/CD pipelines using GitHub Actions, and automated CLI
-microservice scaffolding.
+combining a Next.js 15 frontend client (`hris-frontend`), an ASP.NET Core 9 Web API
+backend (`hris-backend`), and a Python/FastAPI AI backend (`hris-ai`). The platform delivers core
+HR operations including employee directory management, attendance monitoring, payroll processing,
+onboarding/offboarding workflows, claim reimbursements, performance tracking, and recruitment.
+Built with modern full-stack engineering standards, the repository provides pnpm workspace
+orchestration, containerized local execution via Docker Compose, automated multi-job CI/CD
+pipelines using GitHub Actions, and automated CLI microservice scaffolding.
 
 ## Repository Structure
 
@@ -18,6 +18,9 @@ microservice scaffolding.
   service packages (`Services/Master`, `Services/Recruitment`, etc.) and cross-cutting modules
   (`Approval`, `Email`, `Logging`, `Scheduler`, `TokenValidation`).
 - `hris-frontend/`: Houses the Next.js 15 web client built with React 19, Tailwind, and Radix.
+- `hris-ai/`: Polyglot AI backend (Python 3.12 / FastAPI, managed with `uv`) providing
+  Retrieval-Augmented Generation (RAG) over corporate documents — ChromaDB vector store, local
+  BGE-M3 embeddings, grounded answers with citation attribution. See [hris-ai/README.md](hris-ai/README.md).
 - `scripts/`: Development automation scripts (e.g. `create-service.ps1` for generating new 5-layer backend services).
 
 ## Build & Development Commands
@@ -34,6 +37,15 @@ pnpm dev:client
 
 # Run backend ASP.NET Core Web API server with Hot Reload & auto-launching Swagger UI
 pnpm dev:backend
+
+# Run AI service (FastAPI RAG backend) with hot reload on port 8000 (requires uv)
+pnpm dev:ai
+
+# Run AI service test suite (72 pytest tests)
+pnpm test:ai
+
+# Index all documents in hris-ai/data/raw/ into the ChromaDB vector store
+pnpm ai:index
 
 # Generate a new 5-layer backend microservice (e.g. Recruitment, Payroll, Attendance)
 pnpm create:service <ServiceName>

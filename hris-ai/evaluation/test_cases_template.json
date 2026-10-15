@@ -1,0 +1,18 @@
+[
+  {
+    "id": "TC-001",
+    "category": "Domain Category (e.g. HR, IT, Finance, Engineering, Legal)",
+    "query": "Isi pertanyaan Anda di sini...",
+    "target_doc": "Nama file dokumen target di data/raw/ (opsional, untuk cross-check)",
+    "expected_answer_summary": "Ekspektasi jawaban atau fakta kunci yang diharapkan ada dalam jawaban.",
+    "expected_abstention": false
+  },
+  {
+    "id": "TC-002",
+    "category": "Negative Test - Out of Domain",
+    "query": "Pertanyaan di luar topik dokumen (misal: resep masakan, cuaca hari ini)...",
+    "target_doc": null,
+    "expected_answer_summary": "Sistem wajib abstain (has_sufficient_context = false).",
+    "expected_abstention": true
+  }
+]

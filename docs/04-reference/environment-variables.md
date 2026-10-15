@@ -24,6 +24,25 @@ This document serves as a complete reference for all environment variables used 
 | `PORT` | Optional port override for the backend app | `8080` (Example) |
 | `JWT_SECRET` | Optional JWT secret for custom internal token validation | (Not provided by default) |
 
+## AI Service (FastAPI / hris-ai)
+
+| Variable | Description | Default / Example Value |
+|---|---|---|
+| `APP_ENV` | Application environment for the AI service | `development` |
+| `LLM_PROVIDER` | LLM gateway provider type | `openai` |
+| `LLM_BASE_URL` | OpenAI-compatible LLM gateway base URL | `https://ai.sumopod.com/v1` |
+| `LLM_API_KEY` | API key for the LLM gateway (set in root `.env`) | (Not provided by default) |
+| `LLM_MODEL` | Model name served by the gateway | `gpt-4o-mini` |
+| `LLM_TEMPERATURE` | Sampling temperature for grounded generation | `0.0` |
+| `LLM_MAX_TOKENS` | Maximum tokens per generated answer | `1024` |
+| `EMBEDDING_PROVIDER` | Embedding backend | `local` |
+| `EMBEDDING_MODEL` | Local embedding model | `BAAI/bge-m3` |
+| `MODEL_CACHE_DIR` | Directory for cached embedding model weights | `./data/cache/models` (`/app/data/cache/models` in Docker) |
+| `HF_HUB_OFFLINE` | Force fully offline Hugging Face loading (`1` = air-gapped) | `1` |
+| `TRANSFORMERS_OFFLINE` | Force offline Transformers loading (`1` = air-gapped) | `1` |
+| `VECTOR_DB_TYPE` | Vector database backend | `chroma` |
+| `VECTOR_DB_DIR` | Persistent vector store directory | `./data/vector_store` |
+
 ## Database (PostgreSQL)
 
 | Variable | Description | Default / Example Value |
