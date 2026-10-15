@@ -1,0 +1,9 @@
+# Build context = apps/api (lihat infra/docker-compose.yml)
+**/bin
+**/obj
+.vs
+.vscode
+.idea
+*.user
+*.suo
+Dockerfile
