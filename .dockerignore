@@ -1,0 +1,27 @@
+# Docker build context = repo root (dipakai oleh build image web dari infra/docker-compose.yml).
+# apps/web/.dockerignore TIDAK berlaku saat context = repo root, jadi file ini wajib ada.
+
+# Dependencies
+**/node_modules
+
+# Build outputs
+**/.next
+**/dist
+**/bin
+**/obj
+
+# Python
+**/.venv
+**/__pycache__
+**/.pytest_cache
+
+# VCS & editor
+.git
+.github
+.idea
+.openclaude
+.qodo
+
+# Docs & non-runtime files
+docs
+**/*.md

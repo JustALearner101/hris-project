@@ -42,10 +42,10 @@ jobs:
         with:
           node-version: 20
           cache: 'pnpm'
-          cache-dependency-path: apps/web/pnpm-lock.yaml
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install Frontend Dependencies
-        run: pnpm --filter ./apps/web install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Lint Frontend
         run: pnpm --filter ./apps/web lint
@@ -93,7 +93,8 @@ jobs:
       - name: Build and Push Frontend Image
         uses: docker/build-push-action@v5
         with:
-          context: ./apps/web
+          context: .
+          file: apps/web/Dockerfile
           target: runner
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/hris-client:latest

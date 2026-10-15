@@ -19,7 +19,8 @@ services:
   # ========================================
   web:
     build:
-      context: ../apps/web
+      context: ../
+      dockerfile: apps/web/Dockerfile
       target: runner
     image: hris-client:prod
     ports:
@@ -40,10 +41,11 @@ services:
   # ========================================
   web-dev:
     build:
-      context: ../apps/web
+      context: ../
+      dockerfile: apps/web/Dockerfile
       target: dev
     image: hris-client:dev
-    command: pnpm dev -- -p 3000 --turbo
+    command: pnpm --filter ./apps/web dev -- -p 3000 --turbo
     ports:
       - "3000:3000"
     environment:
@@ -51,7 +53,8 @@ services:
       NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8080/api/v1}
       NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
     volumes:
-      - ../apps/web:/app
+      - ../apps/web:/app/apps/web
+      - /app/apps/web/node_modules
       - pnpm-store:/root/.local/share/pnpm
     depends_on:
       - api
