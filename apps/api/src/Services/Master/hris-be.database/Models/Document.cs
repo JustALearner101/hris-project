@@ -1,4 +1,4 @@
-using system
+using System;
 
 namespace hris_be.database.Models
 {

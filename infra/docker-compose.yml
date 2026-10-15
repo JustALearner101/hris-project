@@ -1,5 +1,5 @@
 # docker-compose untuk HRIS Monorepo (Frontend Next.js + Backend ASP.NET Core + Service Pendukung)
-# Monorepo Root Docker Compose Configuration
+# Infra layer — jalankan dari repo root: docker compose -f infra/docker-compose.yml ...
 
 version: "3.9"
 name: hris
@@ -19,7 +19,7 @@ services:
   # ========================================
   web:
     build:
-      context: ./hris-frontend
+      context: ../apps/web
       target: runner
     image: hris-client:prod
     ports:
@@ -40,7 +40,7 @@ services:
   # ========================================
   web-dev:
     build:
-      context: ./hris-frontend
+      context: ../apps/web
       target: dev
     image: hris-client:dev
     command: pnpm dev -- -p 3000 --turbo
@@ -51,7 +51,7 @@ services:
       NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8080/api/v1}
       NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
     volumes:
-      - ./hris-frontend:/app
+      - ../apps/web:/app
       - pnpm-store:/root/.local/share/pnpm
     depends_on:
       - api
@@ -67,7 +67,7 @@ services:
   # ========================================
   api:
     build:
-      context: ./hris-backend
+      context: ../apps/api
       dockerfile: Dockerfile
     image: hris-api:latest
     environment:
@@ -117,7 +117,7 @@ services:
   # ========================================
   ai:
     build:
-      context: ./hris-ai
+      context: ../apps/ai
       dockerfile: Dockerfile
     image: hris-ai:latest
     environment:
@@ -130,7 +130,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./hris-ai/data:/app/data
+      - ../apps/ai/data:/app/data
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
       interval: 30s

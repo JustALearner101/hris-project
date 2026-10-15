@@ -11,8 +11,8 @@ $serviceLower = $ServiceName.ToLower()
 
 Write-Host "🚀 Generating new microservice/service: '$servicePascal'..." -ForegroundColor Cyan
 
-$baseDir = "hris-backend/src/Services/$servicePascal"
-$slnPath = "hris-backend/Hris.Backend.sln"
+$baseDir = "apps/api/src/Services/$servicePascal"
+$slnPath = "apps/api/Hris.Backend.sln"
 
 if (Test-Path $baseDir) {
     Write-Error "Service directory '$baseDir' already exists!"
@@ -240,4 +240,4 @@ app.Run();
 Write-Host "🔗 Adding generated projects to solution ($slnPath)..." -ForegroundColor Yellow
 dotnet sln $slnPath add $libCsproj $viewCsproj $dbCsproj $serviceCsproj $apiCsproj
 
-Write-Host "✅ Microservice '$servicePascal' successfully created with Repositories & DTOs folders at 'hris-backend/src/Services/$servicePascal'!" -ForegroundColor Green
+Write-Host "✅ Microservice '$servicePascal' successfully created with Repositories & DTOs folders at 'apps/api/src/Services/$servicePascal'!" -ForegroundColor Green

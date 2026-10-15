@@ -20,10 +20,10 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Restore Dependencies
-        run: dotnet restore hris-backend/Hris.Backend.sln
+        run: dotnet restore apps/api/Hris.Backend.sln
 
       - name: Build Backend
-        run: dotnet build hris-backend/Hris.Backend.sln --no-restore -c Release
+        run: dotnet build apps/api/Hris.Backend.sln --no-restore -c Release
 
   frontend-ci:
     name: Frontend CI (Next.js 15)
@@ -42,16 +42,16 @@ jobs:
         with:
           node-version: 20
           cache: 'pnpm'
-          cache-dependency-path: hris-frontend/pnpm-lock.yaml
+          cache-dependency-path: apps/web/pnpm-lock.yaml
 
       - name: Install Frontend Dependencies
-        run: pnpm --filter hris-frontend install --frozen-lockfile
+        run: pnpm --filter ./apps/web install --frozen-lockfile
 
       - name: Lint Frontend
-        run: pnpm --filter hris-frontend lint
+        run: pnpm --filter ./apps/web lint
 
       - name: Build Frontend
-        run: pnpm --filter hris-frontend build
+        run: pnpm --filter ./apps/web build
 
   ai-service-ci:
     name: AI Service CI (Python 3.12 / uv)
@@ -64,16 +64,16 @@ jobs:
         uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
-          cache-dependency-glob: hris-ai/uv.lock
+          cache-dependency-glob: apps/ai/uv.lock
 
       - name: Install Dependencies
-        run: uv sync --frozen --directory hris-ai
+        run: uv sync --frozen --directory apps/ai
 
       - name: Run Tests
-        run: uv run --directory hris-ai pytest
+        run: uv run --directory apps/ai pytest
 
       - name: Verify Scaffold
-        run: uv run --directory hris-ai python scripts/verify_scaffold.py
+        run: uv run --directory apps/ai python scripts/verify_scaffold.py
 
   docker-build-push:
     name: Docker Build & Push
@@ -93,7 +93,7 @@ jobs:
       - name: Build and Push Frontend Image
         uses: docker/build-push-action@v5
         with:
-          context: ./hris-frontend
+          context: ./apps/web
           target: runner
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/hris-client:latest
@@ -101,13 +101,13 @@ jobs:
       - name: Build and Push Backend Image
         uses: docker/build-push-action@v5
         with:
-          context: ./hris-backend
+          context: ./apps/api
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/hris-api:latest
 
       - name: Build and Push AI Service Image
         uses: docker/build-push-action@v5
         with:
-          context: ./hris-ai
+          context: ./apps/ai
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/hris-ai:latest
