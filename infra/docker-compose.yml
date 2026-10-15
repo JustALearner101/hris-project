@@ -88,6 +88,28 @@ services:
     profiles: ["dev", "prod"]
 
   # ========================================
+  # CRM & PSA Microservice (NestJS + Prisma)
+  # ========================================
+  crm:
+    build:
+      context: ../
+      dockerfile: apps/crm/Dockerfile
+    image: hris-crm:latest
+    environment:
+      NODE_ENV: production
+      PORT: 8082
+      DATABASE_URL: "postgresql://hris:hris@db:5432/hris?schema=crm"
+      REDIS_URL: "redis://redis:6379"
+    ports:
+      - "8082:8082"
+    depends_on:
+      - db
+      - redis
+    networks:
+      - hris
+    profiles: ["dev", "prod"]
+
+  # ========================================
   # Database (PostgreSQL 16)
   # ========================================
   db:

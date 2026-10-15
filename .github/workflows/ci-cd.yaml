@@ -75,6 +75,39 @@ jobs:
       - name: Verify Scaffold
         run: uv run --directory apps/ai python scripts/verify_scaffold.py
 
+  crm-ci:
+    name: CRM CI (NestJS + Prisma)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate Prisma Schema
+        run: pnpm --filter ./apps/crm exec prisma validate
+        env:
+          DATABASE_URL: "postgresql://hris:hris@localhost:5432/hris?schema=crm"
+
+      - name: Generate Prisma Client
+        run: pnpm --filter ./apps/crm exec prisma generate
+
+      - name: Build CRM
+        run: pnpm --filter ./apps/crm build
+
   contracts-drift:
     name: Contracts Drift Check (OpenAPI)
     runs-on: ubuntu-latest
@@ -122,7 +155,7 @@ jobs:
 
   docker-build-push:
     name: Docker Build & Push
-    needs: [backend-ci, frontend-ci, ai-service-ci]
+    needs: [backend-ci, frontend-ci, ai-service-ci, crm-ci]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
@@ -157,3 +190,11 @@ jobs:
           context: ./apps/ai
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/hris-ai:latest
+
+      - name: Build and Push CRM Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: apps/crm/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/hris-crm:latest
