@@ -28,12 +28,12 @@ pnpm dev
   ```bash
   pnpm dev:backend
   ```
-  *This executes `dotnet watch` on `hris-backend/src/Services/Master/hris-be`, automatically opening your default web browser to the Swagger UI (`http://localhost:8080/swagger`).*
+  *This executes `dotnet watch` on `apps/api/src/Services/Master/hris-be`, automatically opening your default web browser to the Swagger UI (`http://localhost:8080/swagger`).*
 
 #### Option 3: Using Docker Compose Stack
 To run the full stack (including Postgres, Redis, Keycloak) using Docker Compose:
 ```bash
-docker compose --profile dev up --build
+docker compose -f infra/docker-compose.yml --profile dev up --build
 ```
 
 ---
@@ -51,7 +51,7 @@ pnpm create:service Recruitment
 ```
 
 ### What gets generated automatically:
-1. Directory structure under `hris-backend/src/Services/Recruitment/`.
+1. Directory structure under `apps/api/src/Services/Recruitment/`.
 2. All 5 project `.csproj` layers:
    - `hris-recruitment-be` (Web API Host)
    - `hris-recruitment-be.database` (DbContext & Models)

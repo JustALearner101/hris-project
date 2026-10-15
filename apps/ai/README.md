@@ -7,7 +7,7 @@
 
 ## Overview
 
-`hris-ai` is the dedicated Python AI backend of the HRIS monorepo, running **FastAPI** alongside the
+`apps/ai` is the dedicated Python AI backend of the HRIS monorepo, running **FastAPI** alongside the
 ASP.NET Core API. It provides grounded, citation-attributed question answering over corporate HR/IT
 documents (PDF, MD, TXT) with strict anti-hallucination guarantees:
 
@@ -20,7 +20,7 @@ documents (PDF, MD, TXT) with strict anti-hallucination guarantees:
 - **Plug-and-Play LLM Gateway**: Supports SumoPod AI (`https://ai.sumopod.com/v1`), standard
   OpenAI endpoints, and Anthropic Claude.
 
-The chat UI is **not** part of this service — it will be built inside `hris-frontend` and consume
+The chat UI is **not** part of this service — it will be built inside `apps/web` and consume
 this API (CORS already allows `localhost:3000`).
 
 ---
@@ -57,7 +57,7 @@ flowchart TD
 ## Repository Structure
 
 ```text
-hris-ai/
+apps/ai/
 ├── src/                            # Modular pipeline architecture (hexagonal)
 │   ├── api/                        # FastAPI app, routers (chat, health), schemas
 │   ├── ingestion/                  # Document parsing, extraction, and validation
@@ -90,12 +90,12 @@ hris-ai/
 ### 2. Installation
 ```bash
 # From the monorepo root
-uv sync --directory hris-ai
+uv sync --directory apps/ai
 ```
 
 ### 3. Environment Configuration
 ```bash
-cd hris-ai
+cd apps/ai
 cp .env.example .env
 ```
 
@@ -123,7 +123,7 @@ pnpm dev:ai
 
 Or directly:
 ```bash
-uv run --directory hris-ai uvicorn src.api.main:app --port 8000 --reload
+uv run --directory apps/ai uvicorn src.api.main:app --port 8000 --reload
 ```
 
 - **API & Swagger**: [http://localhost:8000/docs](http://localhost:8000/docs)
@@ -134,17 +134,17 @@ uv run --directory hris-ai uvicorn src.api.main:app --port 8000 --reload
 ## Operational CLI Commands
 
 ### 1. Batch Document Indexing
-Place corporate documents in `hris-ai/data/raw/`, then:
+Place corporate documents in `apps/ai/data/raw/`, then:
 ```bash
 pnpm ai:index
 # equivalent to:
-uv run --directory hris-ai python scripts/index_all_documents.py --data-dir data/raw --collection rag_documents_ioh
+uv run --directory apps/ai python scripts/index_all_documents.py --data-dir data/raw --collection rag_documents_ioh
 ```
 *Options:* `--data-dir`, `--collection`, `--reset` (clear collection before indexing).
 
 ### 2. Interactive RAG Query Runner
 ```bash
-uv run --directory hris-ai python scripts/run_rag_pipeline.py \
+uv run --directory apps/ai python scripts/run_rag_pipeline.py \
   --query "Berapa hari kuota hak cuti tahunan bagi karyawan tetap?"
 ```
 *Options:* `-q/--query`, `-k/--top-k` (default 4), `-t/--threshold` (default 0.3),
@@ -152,7 +152,7 @@ uv run --directory hris-ai python scripts/run_rag_pipeline.py \
 
 ### 3. Automated End-to-End Evaluation
 ```bash
-uv run --directory hris-ai python scripts/run_e2e_evaluation.py \
+uv run --directory apps/ai python scripts/run_e2e_evaluation.py \
   --test-cases evaluation/test_cases.json --top-k 4
 ```
 
@@ -160,7 +160,7 @@ uv run --directory hris-ai python scripts/run_e2e_evaluation.py \
 ```bash
 pnpm test:ai
 # equivalent to:
-uv run --directory hris-ai pytest
+uv run --directory apps/ai pytest
 ```
 
 > [!WARNING]

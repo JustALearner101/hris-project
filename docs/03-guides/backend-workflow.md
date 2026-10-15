@@ -1,6 +1,6 @@
 # Backend Workflow Guide (ASP.NET Core 9)
 
-This guide outlines the backend development flow for `hris-backend` using ASP.NET Core 9 and the `eproc-be` 5-layer modular service pattern.
+This guide outlines the backend development flow for `apps/api` using ASP.NET Core 9 and the `eproc-be` 5-layer modular service pattern.
 
 ---
 
@@ -48,7 +48,7 @@ pnpm create:service Recruitment
 6. **Create Controller**: Expose HTTP endpoints in `hris-<name>-be/Controllers/`.
 7. **Verify & Build**:
    ```bash
-   dotnet build hris-backend/Hris.Backend.sln
+   dotnet build apps/api/Hris.Backend.sln
    ```
 
 ---
@@ -64,7 +64,7 @@ Access Swagger UI at `http://localhost:8080/swagger`.
 
 ### Running Tests
 ```bash
-dotnet test hris-backend/Hris.Backend.sln
+dotnet test apps/api/Hris.Backend.sln
 ```
 
 ### Monorepo Production Build

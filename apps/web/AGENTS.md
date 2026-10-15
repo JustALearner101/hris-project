@@ -40,7 +40,7 @@ workflows.
 ## 2. Project Structure
 
 ```
-hris-frontend/
+apps/web/
 ├── app/                        # Next.js App Router
 │   ├── layout.tsx              # Root layout (fonts, analytics, Suspense)
 │   ├── page.tsx                # Root page — redirects to /modules/dashboard
@@ -613,10 +613,10 @@ pnpm lint             # Run ESLint
 
 ```bash
 # Development (with hot reload + supporting services)
-docker compose --profile dev up --build web-dev
+docker compose -f infra/docker-compose.yml --profile dev up --build web-dev
 
 # Production
-docker compose --profile prod up --build web
+docker compose -f infra/docker-compose.yml --profile prod up --build web
 ```
 
 ### Adding a New Module/Feature

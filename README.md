@@ -6,11 +6,17 @@ Monorepo terintegrasi untuk aplikasi **Human Resource Information System (HRIS)*
 
 ```text
 hris-project/
+├── apps/
+│   ├── web/             # Frontend (Next.js 15 + React 19 + Tailwind CSS 4)
+│   ├── api/             # Backend (ASP.NET Core Web API .NET 9)
+│   ├── ai/              # AI Service (Python 3.12 / FastAPI, managed with uv)
+│   └── crm/             # CRM & PSA Microservice (NestJS + Prisma)
+├── packages/
+│   └── contracts/       # Tipe TS hasil generate dari OpenAPI backend (@hris/contracts)
+├── infra/               # docker-compose.yml (+ konfigurasi infrastruktur)
 ├── .github/workflows/   # CI/CD Workflows (GitHub Actions)
 ├── docs/                # Dokumentasi & PDF Arsitektur/SRS
-├── hris-backend/        # Backend (ASP.NET Core Web API .NET 9)
-├── hris-frontend/       # Frontend (Next.js 15 + React 19 + Tailwind CSS 4)
-├── docker-compose.yml   # Orchestration Docker (Frontend, Backend, DB, Redis, Keycloak)
+├── scripts/             # Automation scripts (create-service.ps1)
 ├── package.json         # Root scripts & orchestration (pnpm + concurrently)
 └── .env.example         # Environment template
 ```
@@ -46,8 +52,8 @@ pnpm dev
 
 #### C. Opsi 3: Menggunakan Docker Compose Stack (Lengkap dengan Postgres, Redis, Keycloak)
 ```bash
-# Menjalankan dev stack
-docker compose --profile dev up --build
+# Menjalankan dev stack (compose file ada di infra/)
+docker compose -f infra/docker-compose.yml --profile dev up --build
 ```
 
 ---
@@ -56,11 +62,14 @@ docker compose --profile dev up --build
 
 | Perintah | Keterangan |
 |---|---|
-| `pnpm dev` | Menjalankan Frontend dan Backend ASP.NET Core secara bersamaan |
+| `pnpm dev` | Menjalankan Frontend, Backend ASP.NET Core, dan AI service secara bersamaan |
 | `pnpm dev:client` | Menjalankan Next.js Frontend saja |
 | `pnpm dev:backend` | Menjalankan ASP.NET Core Web API saja |
+| `pnpm dev:ai` | Menjalankan AI service (FastAPI) saja |
 | `pnpm build` | Mem-build Frontend (`pnpm build:client`) dan Backend (`pnpm build:backend`) |
 | `pnpm lint:client` | Menjalankan ESLint di Frontend |
+| `pnpm test:ai` | Menjalankan test suite AI service |
+| `pnpm create:service <Name>` | Generate 5-layer backend service baru |
 
 ---
 

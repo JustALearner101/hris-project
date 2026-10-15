@@ -1,6 +1,6 @@
 # Employee Feature Module (Next.js 15 Best Practice Architecture)
 
-Panduan ini berisi penjelasan arsitektur dan prinsip-prinsip *Best Practice* Next.js 15 (App Router) yang digunakan pada modul **Master Employee**. Gunakan panduan ini sebagai acuan saat membuat modul-modul CRUD lainnya di `hris-frontend`.
+Panduan ini berisi penjelasan arsitektur dan prinsip-prinsip *Best Practice* Next.js 15 (App Router) yang digunakan pada modul **Master Employee**. Gunakan panduan ini sebagai acuan saat membuat modul-modul CRUD lainnya di `apps/web`.
 
 ---
 

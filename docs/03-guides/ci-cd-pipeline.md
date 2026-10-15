@@ -66,10 +66,10 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Restore Dependencies
-        run: dotnet restore hris-backend/Hris.Backend.sln
+        run: dotnet restore apps/api/Hris.Backend.sln
 
       - name: Build Backend
-        run: dotnet build hris-backend/Hris.Backend.sln --no-restore -c Release
+        run: dotnet build apps/api/Hris.Backend.sln --no-restore -c Release
 
   frontend-ci:
     name: Frontend CI (Next.js 15)
@@ -88,16 +88,16 @@ jobs:
         with:
           node-version: 20
           cache: 'pnpm'
-          cache-dependency-path: hris-frontend/pnpm-lock.yaml
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install Frontend Dependencies
-        run: pnpm --filter hris-frontend install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Lint Frontend
-        run: pnpm --filter hris-frontend lint
+        run: pnpm --filter ./apps/web lint
 
       - name: Build Frontend
-        run: pnpm --filter hris-frontend build
+        run: pnpm --filter ./apps/web build
 
   docker-build-push:
     name: Docker Build & Push
@@ -117,7 +117,8 @@ jobs:
       - name: Build and Push Frontend Image
         uses: docker/build-push-action@v5
         with:
-          context: ./hris-frontend
+          context: .
+          file: apps/web/Dockerfile
           target: runner
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/hris-client:latest
@@ -125,7 +126,7 @@ jobs:
       - name: Build and Push Backend Image
         uses: docker/build-push-action@v5
         with:
-          context: ./hris-backend
+          context: ./apps/api
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/hris-api:latest
 ```

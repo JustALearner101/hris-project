@@ -1,13 +1,13 @@
 # Frontend Workflow Guide (Next.js 15 & React 19)
 
-This guide details the Next.js 15 (App Router) development workflow for `hris-frontend` using Feature-Driven Architecture and SWR data fetching.
+This guide details the Next.js 15 (App Router) development workflow for `apps/web` using Feature-Driven Architecture and SWR data fetching.
 
 ---
 
 ## 1. Architecture Patterns
 
 ### Feature-Based Folder Structure
-All domain features (e.g. `employee`, `attendance`, `payroll`) are organized in `hris-frontend/features/<feature-name>/`:
+All domain features (e.g. `employee`, `attendance`, `payroll`) are organized in `apps/web/features/<feature-name>/`:
 
 ```text
 features/employee/
@@ -44,7 +44,7 @@ features/employee/
 
 ```bash
 # Type-check TypeScript code
-pnpm --filter ./hris-frontend exec tsc --noEmit
+pnpm --filter ./apps/web exec tsc --noEmit
 
 # Run ESLint
 pnpm lint:client

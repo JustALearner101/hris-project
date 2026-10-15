@@ -112,16 +112,15 @@ pnpm prisma migrate dev --name init
 
 ## Infrastructure Setup (Docker Compose)
 
-Create `infra/compose/docker-compose.yml` to define services for:
+Create `infra/docker-compose.yml` to define services for:
 - PostgreSQL 16.3
 - Redis 7.2
 - Kafka 3.7.0 (KRaft)
 - Keycloak 24.0
 
-Run the dev stack:
+Run the dev stack (from the repo root):
 ```bash
-cd infra/compose
-docker compose up -d
+docker compose -f infra/docker-compose.yml up -d
 ```
 
 ---
@@ -154,8 +153,8 @@ Create an API helper `apps/web/src/lib/api.ts` to fetch data from the backend us
   "scripts": {
     "dev:web": "pnpm --filter web dev",
     "dev:api": "pnpm --filter api start:dev",
-    "dev:up": "docker compose -f infra/compose/docker-compose.yml up -d",
-    "dev:down": "docker compose -f infra/compose/docker-compose.yml down -v",
+    "dev:up": "docker compose -f infra/docker-compose.yml up -d",
+    "dev:down": "docker compose -f infra/docker-compose.yml down -v",
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck"
   }

@@ -2,7 +2,7 @@
 
 ## Architecture Pattern
 
-The system follows a **Modular Microservice / Modular Monolith** architecture with Domain-Driven Design (DDD) boundaries, organized in `hris-backend/src/`. It is structured to run as a unified host in initial phases while allowing seamless deployment as independent microservices.
+The system follows a **Modular Microservice / Modular Monolith** architecture with Domain-Driven Design (DDD) boundaries, organized in `apps/api/src/`. It is structured to run as a unified host in initial phases while allowing seamless deployment as independent microservices.
 
 ### Backend Project Layers (`eproc-be` Pattern)
 Each domain module under `src/Services/<ServiceName>` (e.g. `Master`, `Recruitment`, `Payroll`) is decomposed into 5 dedicated projects:

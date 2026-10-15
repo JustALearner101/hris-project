@@ -1,6 +1,6 @@
 # Data Table Guide (Hybrid Composable Pattern)
 
-This guide details the **Hybrid Composable Table** architecture implemented in `hris-frontend`. It outlines the architectural patterns and provides reference APIs and code blueprints for building both client-side and server-side paginated tables.
+This guide details the **Hybrid Composable Table** architecture implemented in `apps/web`. It outlines the architectural patterns and provides reference APIs and code blueprints for building both client-side and server-side paginated tables.
 
 ---
 

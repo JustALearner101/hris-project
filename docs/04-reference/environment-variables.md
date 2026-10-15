@@ -24,7 +24,7 @@ This document serves as a complete reference for all environment variables used 
 | `PORT` | Optional port override for the backend app | `8080` (Example) |
 | `JWT_SECRET` | Optional JWT secret for custom internal token validation | (Not provided by default) |
 
-## AI Service (FastAPI / hris-ai)
+## AI Service (FastAPI / apps/ai)
 
 | Variable | Description | Default / Example Value |
 |---|---|---|
