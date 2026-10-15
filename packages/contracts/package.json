@@ -1,0 +1,17 @@
+{
+  "name": "@hris/contracts",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "types": "./src/generated/api.d.ts",
+  "exports": {
+    ".": "./src/generated/api.d.ts"
+  },
+  "scripts": {
+    "generate": "openapi-typescript ./openapi/swagger.json -o src/generated/api.d.ts",
+    "generate:live": "openapi-typescript http://localhost:8080/swagger/v1/swagger.json -o src/generated/api.d.ts"
+  },
+  "devDependencies": {
+    "openapi-typescript": "^7.4.0"
+  }
+}

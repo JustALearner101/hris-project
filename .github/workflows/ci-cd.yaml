@@ -75,6 +75,51 @@ jobs:
       - name: Verify Scaffold
         run: uv run --directory apps/ai python scripts/verify_scaffold.py
 
+  contracts-drift:
+    name: Contracts Drift Check (OpenAPI)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install Node Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Backend
+        run: dotnet build apps/api/Hris.Backend.sln -c Release
+
+      - name: Export OpenAPI snapshot
+        run: |
+          dotnet run --project apps/api/src/Services/Master/hris-be --no-build -c Release --urls http://localhost:8080 &
+          for i in $(seq 1 30); do
+            curl -sf http://localhost:8080/swagger/v1/swagger.json -o packages/contracts/openapi/swagger.json && break
+            sleep 2
+          done
+          test -s packages/contracts/openapi/swagger.json
+
+      - name: Regenerate contract types
+        run: pnpm --filter @hris/contracts generate
+
+      - name: Fail if contracts drifted
+        run: git diff --exit-code -- packages/contracts
+
   docker-build-push:
     name: Docker Build & Push
     needs: [backend-ci, frontend-ci, ai-service-ci]
