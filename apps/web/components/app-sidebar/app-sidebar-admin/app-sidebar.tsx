@@ -297,7 +297,7 @@ export function AppSidebar() {
                                 <SidebarMenu>
                                     <SidebarMenuItem>
                                         <SidebarMenuButton asChild isActive={isActive("/recruitment")}>
-                                            <Link href="/recruitment">
+                                            <Link href={process.env.NEXT_PUBLIC_RECRUITMENT_WEB_URL || "http://localhost:3001/recruitment"}>
                                                 <Briefcase className="mr-2 size-4" />
                                                 <span>Recruitment</span>
                                             </Link>

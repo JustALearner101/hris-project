@@ -103,6 +103,42 @@ Idempotency-Key: c3d4e5f6-a7b8-9012-3456-789abcdef012
 ```
 **Response**: `202 Accepted` with a status URL `/payroll/runs/{id}`.
 
+### 4. Recruitment & ATS Microservice (`hris-recruitment-be`, `:8083`)
+
+All responses use `DefaultDtoResponse<T>` (`status`, `data: T[]`, `message`, `total`).
+
+#### Public Career Portal (`[AllowAnonymous]`)
+
+| Method | Path | Rate Limit | Description |
+|--------|------|------------|-------------|
+| `GET` | `/api/v1/public/jobs` | `public-read` (60/min/IP) | Paginated list of `OPEN` job postings (`DefaultDtoPagingParams`) |
+| `GET` | `/api/v1/public/jobs/{slug}` | `public-read` (60/min/IP) | Public job posting detail by slug |
+| `POST` | `/api/v1/public/jobs/{jobId}/applications` | `public-apply` (5/min/IP) | Multipart CV upload (`cv` up to 5 MB `.pdf`/`.doc`/`.docx`) + `Idempotency-Key` header; returns `202 Accepted` with `{ applicationId, trackingToken, status: "PENDING" }` |
+| `GET` | `/api/v1/public/applications/{token}` | `public-status` (30/min/IP) | Candidate status tracker by opaque 256-bit `trackingToken` |
+
+#### HR Admin ATS (`[Authorize(Roles = "HR Admin")]`)
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `POST` | `/api/v1/auth/login` | Issue signed JWT for `HR Admin` testing/local dev |
+| `GET` | `/api/v1/JobPosting` | List all job postings (all statuses) |
+| `GET` | `/api/v1/JobPosting/{id}` | Get job posting by ID with pipeline stages |
+| `POST` | `/api/v1/JobPosting` | Create job posting + seed default 5 stages (`Sourcing`, `Screening`, `Interview`, `Offer`, `Hired`) |
+| `PUT` | `/api/v1/JobPosting/{id}` | Update job posting |
+| `DELETE` | `/api/v1/JobPosting/{id}` | Soft-delete job posting (`is_deleted = true`) |
+| `POST` | `/api/v1/JobPosting/{id}/publish` | Transition status to `OPEN` and set `published_at` |
+| `POST` | `/api/v1/JobPosting/{id}/unpublish` | Transition status to `CLOSED` |
+| `GET` | `/api/v1/JobPosting/{id}/stages` | List ordered stages for job posting |
+| `PUT` | `/api/v1/JobPosting/{id}/stages` | Reorder/update pipeline stages |
+| `GET` | `/api/v1/Application` | List applications (`jobPostingId`, `stageId`, `status`, `search`) |
+| `GET` | `/api/v1/Application/{id}` | Full application detail including `parsed_cv_json`, `extracted_text`, and documents |
+| `POST` | `/api/v1/Application/{id}/move-stage` | Move application to target stage |
+| `POST` | `/api/v1/Application/{id}/reject` | Mark application `REJECTED` with reason |
+| `POST` | `/api/v1/Application/{id}/hire` | Mark application `HIRED`, set `hired_at`, and publish `candidate.hired` to Redis Streams |
+| `GET` | `/api/v1/Application/{id}/documents/{docId}` | Authenticated CV file stream download (`X-Content-Type-Options: nosniff`) |
+| `GET` | `/api/v1/Candidate` | Paginated talent pool directory |
+| `GET` | `/api/v1/Candidate/{id}` | Candidate profile + application history |
+
 ## Webhooks
 
 The HRIS supports webhooks for various events.

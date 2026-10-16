@@ -5,6 +5,10 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Sequence
 
+from src.ingestion.adapters.ocr_loader import (
+    DocxDocumentLoader,
+    OCRDocumentLoader,
+)
 from src.ingestion.adapters.pdf_loader import PDFDocumentLoader
 from src.ingestion.adapters.text_loader import (
     MarkdownDocumentLoader,
@@ -30,6 +34,8 @@ class DocumentLoaderRegistry:
             self.register(TextDocumentLoader())
             self.register(MarkdownDocumentLoader())
             self.register(PDFDocumentLoader())
+            self.register(DocxDocumentLoader())
+            self.register(OCRDocumentLoader())
 
     def register(self, loader: BaseDocumentLoader) -> None:
         """Register a new document loader adapter."""
@@ -45,21 +51,39 @@ class DocumentLoaderRegistry:
             file_path=str(file_path),
         )
 
+    def get_ocr_loader(self) -> OCRDocumentLoader:
+        """Retrieve a registered OCRDocumentLoader or instantiate a default one."""
+        for loader in self._loaders:
+            if isinstance(loader, OCRDocumentLoader):
+                return loader
+        return OCRDocumentLoader()
+
 
 class DocumentIngestionService:
     """Primary service coordinating multi-format document ingestion and audit tracking."""
 
-    def __init__(self, registry: DocumentLoaderRegistry | None = None) -> None:
+    def __init__(
+        self,
+        registry: DocumentLoaderRegistry | None = None,
+        ocr_loader: OCRDocumentLoader | None = None,
+    ) -> None:
         self.registry = registry or DocumentLoaderRegistry()
+        self.ocr_loader = ocr_loader
 
     def ingest_file(self, file_path: Path | str, actor: str = "system") -> Document:
-        """Ingest a single document file."""
+        """Ingest a single document file, falling back to OCR if a digital PDF yields 0 text."""
         path = Path(file_path)
         if not path.is_file():
             raise FileNotFoundError(f"File not found: '{path}'")
 
         loader = self.registry.get_loader(path)
-        return loader.load(path, actor=actor)
+        try:
+            return loader.load(path, actor=actor)
+        except EmptyDocumentError:
+            if isinstance(loader, PDFDocumentLoader) and path.stat().st_size > 0:
+                ocr = self.ocr_loader or self.registry.get_ocr_loader()
+                return ocr.load(path, actor=actor)
+            raise
 
     def ingest_batch(
         self,

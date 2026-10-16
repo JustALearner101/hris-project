@@ -81,3 +81,7 @@ scratch/
 # ----- Local Database & Docker Volume Exports -----
 postgres_data/
 redis_data/
+storage/
+cv-data/
+uploads/
+

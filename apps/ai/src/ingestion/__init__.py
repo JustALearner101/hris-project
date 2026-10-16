@@ -1,5 +1,9 @@
 """Document Ingestion Package."""
 
+from src.ingestion.adapters.ocr_loader import (
+    DocxDocumentLoader,
+    OCRDocumentLoader,
+)
 from src.ingestion.adapters.pdf_loader import PDFDocumentLoader
 from src.ingestion.adapters.text_loader import (
     MarkdownDocumentLoader,
@@ -21,6 +25,8 @@ __all__ = [
     "TextDocumentLoader",
     "MarkdownDocumentLoader",
     "PDFDocumentLoader",
+    "OCRDocumentLoader",
+    "DocxDocumentLoader",
     "DocumentLoaderRegistry",
     "DocumentIngestionService",
     "IngestionBatchResult",

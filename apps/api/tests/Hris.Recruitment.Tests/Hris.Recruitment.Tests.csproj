@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Services\Recruitment\hris-recruitment-be\hris-recruitment-be.csproj" />
+    <ProjectReference Include="..\..\src\Services\Recruitment\hris-recruitment-be.service\hris-recruitment-be.service.csproj" />
+    <ProjectReference Include="..\..\src\Services\Recruitment\hris-recruitment-be.database\hris-recruitment-be.database.csproj" />
+    <ProjectReference Include="..\..\src\Services\Recruitment\hris-recruitment-be.view\hris-recruitment-be.view.csproj" />
+    <ProjectReference Include="..\..\src\Services\Recruitment\hris-recruitment-be.lib\hris-recruitment-be.util.csproj" />
+    <ProjectReference Include="..\..\src\TokenValidation\Hris.TokenValidation.csproj" />
+  </ItemGroup>
+
+</Project>

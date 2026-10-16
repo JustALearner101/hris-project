@@ -22,6 +22,10 @@ All events follow a standard envelope schema containing metadata and a flexible 
 - `employee.updated`
 - `employee.terminated`
 - `candidate.applied`
+- `candidate.cv.uploaded`
+- `candidate.cv.parsed`
+- `candidate.cv.failed`
+- `candidate.cv.dlq`
 - `candidate.hired`
 - `onboarding.started`
 - `onboarding.completed`
@@ -49,6 +53,18 @@ All events follow a standard envelope schema containing metadata and a flexible 
 - `external.sync.success`
 - `external.sync.fail`
 - `config.updated`
+
+## Redis Streams Transport (Recruitment / ATS & AI Worker)
+
+In local and single-node deployments, durable asynchronous workflows between `hris-recruitment-be` (`.NET 9`) and `hris-ai-service` (`Python 3.12 / FastAPI`) use **Redis Streams** (`XADD`, `XREADGROUP`, `XAUTOCLAIM`, `XACK`) on `redis:7-alpine`:
+
+| Stream Key | Producer | Consumer Group | Purpose |
+|---|---|---|---|
+| `candidate.cv.uploaded` | `hris-recruitment-be` | `cv-parser` (`apps/ai`) | Notifies AI worker that a candidate CV has been persisted to shared storage (`/cv-data`) |
+| `candidate.cv.parsed` | `apps/ai` (`CvStreamWorker`) | `recruitment-be` | Returns structured `parsedJson`, `extractedText`, and `confidence` score |
+| `candidate.cv.failed` | `apps/ai` (`CvStreamWorker`) | `recruitment-be` | Marks document parse status `FAILED` with `errorCode` and `attempt` |
+| `candidate.cv.dlq` | `apps/ai` (`CvStreamWorker`) | Ops / Dead-Letter | Dead-letter stream after 3 failed processing attempts |
+| `candidate.hired` | `hris-recruitment-be` | `onboarding-be` / `master-be` | Emitted when an application transitions to `HIRED` to trigger employee onboarding |
 
 ## Sample Event Payload
 

@@ -23,9 +23,10 @@ RUN uv sync --frozen --no-dev
 COPY src/ ./src/
 COPY scripts/ ./scripts/
 
-# Run as non-root user
+# Run as non-root user and ensure /cv-data mount point exists
 RUN useradd --create-home --uid 1000 hris \
-    && chown -R hris:hris /app
+    && mkdir -p /cv-data \
+    && chown -R hris:hris /app /cv-data
 USER hris
 
 EXPOSE 8000

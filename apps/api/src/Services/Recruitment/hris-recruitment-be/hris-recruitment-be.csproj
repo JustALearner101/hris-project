@@ -6,6 +6,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0" />
+    <PackageReference Include="StackExchange.Redis" Version="2.8.16" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
   <ItemGroup>
@@ -13,5 +15,6 @@
     <ProjectReference Include="..\hris-recruitment-be.database\hris-recruitment-be.database.csproj" />
     <ProjectReference Include="..\hris-recruitment-be.view\hris-recruitment-be.view.csproj" />
     <ProjectReference Include="..\hris-recruitment-be.lib\hris-recruitment-be.util.csproj" />
+    <ProjectReference Include="..\..\..\TokenValidation\Hris.TokenValidation.csproj" />
   </ItemGroup>
 </Project>

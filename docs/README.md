@@ -40,6 +40,7 @@ System design, technical decisions, and architectural blueprints.
 | [Integration Architecture](02-architecture/integration-architecture.md) | SSO (OIDC/SAML/SCIM), attendance device gateway, banking file formats, e-sign, accounting adapters |
 | [Security Architecture](02-architecture/security-architecture.md) | Comprehensive security blueprint: threat model, AuthN/AuthZ, encryption, network controls, compliance |
 | [Event-Driven Architecture](02-architecture/event-driven-architecture.md) | Kafka event bus, standard envelope schema, event catalog, schema validation |
+| [Recruitment ATS Architecture](02-architecture/recruitment-ats-architecture.md) | End-to-end Recruitment/ATS blueprint: public career portal, admin pipeline board, async CV pipeline (Redis Streams), auth split, phased learner roadmap |
 
 ---
 

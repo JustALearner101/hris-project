@@ -25,6 +25,9 @@ jobs:
       - name: Build Backend
         run: dotnet build apps/api/Hris.Backend.sln --no-restore -c Release
 
+      - name: Test Backend
+        run: dotnet test apps/api/Hris.Backend.sln --no-build -c Release
+
   frontend-ci:
     name: Frontend CI (Next.js 15)
     runs-on: ubuntu-latest
@@ -47,11 +50,17 @@ jobs:
       - name: Install Frontend Dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Lint Frontend
+      - name: Lint Main Frontend
         run: pnpm --filter ./apps/web lint
 
-      - name: Build Frontend
+      - name: Build Main Frontend
         run: pnpm --filter ./apps/web build
+
+      - name: Lint Recruitment ATS Frontend
+        run: pnpm --filter ./apps/recruitment-web lint
+
+      - name: Build Recruitment ATS Frontend
+        run: pnpm --filter ./apps/recruitment-web build
 
   ai-service-ci:
     name: AI Service CI (Python 3.12 / uv)
@@ -177,12 +186,29 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/hris-client:latest
 
+      - name: Build and Push Recruitment Web Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: apps/recruitment-web/Dockerfile
+          target: runner
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/hris-recruitment-web:latest
+
       - name: Build and Push Backend Image
         uses: docker/build-push-action@v5
         with:
           context: ./apps/api
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/hris-api:latest
+
+      - name: Build and Push Recruitment Backend Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./apps/api
+          file: apps/api/src/Services/Recruitment/hris-recruitment-be/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/hris-recruitment:latest
 
       - name: Build and Push AI Service Image
         uses: docker/build-push-action@v5

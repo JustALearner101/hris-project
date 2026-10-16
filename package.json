@@ -5,15 +5,19 @@
   "description": "HRIS Monorepo Project",
   "scripts": {
     "dev:client": "pnpm --filter ./apps/web dev",
+    "dev:recruitment-web": "pnpm --filter ./apps/recruitment-web dev",
     "dev:backend": "dotnet watch --project apps/api/src/Services/Master/hris-be",
+    "dev:recruitment-api": "dotnet watch --project apps/api/src/Services/Recruitment/hris-recruitment-be",
     "dev:ai": "uv run --directory apps/ai uvicorn src.api.main:app --reload --port 8000",
-    "dev": "concurrently -n \"CLIENT,BACKEND,AI\" -c \"cyan,magenta,yellow\" \"pnpm dev:client\" \"pnpm dev:backend\" \"pnpm dev:ai\"",
+    "dev": "concurrently -n \"CLIENT,ATS-WEB,BACKEND,ATS-API,AI\" -c \"cyan,blue,magenta,green,yellow\" \"pnpm dev:client\" \"pnpm dev:recruitment-web\" \"pnpm dev:backend\" \"pnpm dev:recruitment-api\" \"pnpm dev:ai\"",
     "test:ai": "uv run --directory apps/ai pytest",
     "ai:index": "uv run --directory apps/ai python scripts/index_all_documents.py",
     "build:client": "pnpm --filter ./apps/web build",
+    "build:recruitment-web": "pnpm --filter ./apps/recruitment-web build",
     "build:backend": "dotnet build apps/api/Hris.Backend.sln",
-    "build": "pnpm build:client && pnpm build:backend",
+    "build": "pnpm build:client && pnpm build:recruitment-web && pnpm build:backend",
     "lint:client": "pnpm --filter ./apps/web lint",
+    "lint:recruitment-web": "pnpm --filter ./apps/recruitment-web lint",
     "create:service": "pwsh ./scripts/create-service.ps1"
   },
   "devDependencies": {

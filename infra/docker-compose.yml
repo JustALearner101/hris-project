@@ -11,6 +11,7 @@ networks:
 volumes:
   db_data:
   pnpm-store:
+  cv_data:
 
 services:
   # ========================================
@@ -28,6 +29,7 @@ services:
     environment:
       NODE_ENV: production
       NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8080/api/v1}
+      NEXT_PUBLIC_RECRUITMENT_WEB_URL: ${NEXT_PUBLIC_RECRUITMENT_WEB_URL:-http://localhost:3001/recruitment}
       NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
     depends_on:
       - api
@@ -51,6 +53,7 @@ services:
     environment:
       NODE_ENV: development
       NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8080/api/v1}
+      NEXT_PUBLIC_RECRUITMENT_WEB_URL: ${NEXT_PUBLIC_RECRUITMENT_WEB_URL:-http://localhost:3001/recruitment}
       NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
     volumes:
       - ../apps/web:/app/apps/web
@@ -66,7 +69,61 @@ services:
     profiles: ["dev"]
 
   # ========================================
-  # Backend API (ASP.NET Core Web API)
+  # Standalone Recruitment & Careers Web UI (Next.js 15) - Production
+  # ========================================
+  recruitment-web:
+    build:
+      context: ../
+      dockerfile: apps/recruitment-web/Dockerfile
+      target: runner
+    image: hris-recruitment-web:prod
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_ATS_API_BASE_URL:-http://localhost:8083}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_ATS_SITE_URL:-http://localhost:3001}
+      NEXT_PUBLIC_HRIS_WEB_URL: ${NEXT_PUBLIC_HRIS_WEB_URL:-http://localhost:3000}
+    depends_on:
+      - recruitment
+    networks:
+      - hris
+    profiles: ["prod"]
+
+  # ========================================
+  # Standalone Recruitment & Careers Web UI (Next.js 15) - Development
+  # ========================================
+  recruitment-web-dev:
+    build:
+      context: ../
+      dockerfile: apps/recruitment-web/Dockerfile
+      target: dev
+    image: hris-recruitment-web:dev
+    command: pnpm --filter ./apps/recruitment-web dev
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: development
+      PORT: 3001
+      NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_ATS_API_BASE_URL:-http://localhost:8083}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_ATS_SITE_URL:-http://localhost:3001}
+      NEXT_PUBLIC_HRIS_WEB_URL: ${NEXT_PUBLIC_HRIS_WEB_URL:-http://localhost:3000}
+    volumes:
+      - ../apps/recruitment-web:/app/apps/recruitment-web
+      - /app/apps/recruitment-web/node_modules
+      - pnpm-store:/root/.local/share/pnpm
+    depends_on:
+      - recruitment
+      - db
+      - redis
+      - keycloak
+    networks:
+      - hris
+    profiles: ["dev"]
+
+  # ========================================
+  # Backend API (ASP.NET Core Web API - Master)
   # ========================================
   api:
     build:
@@ -79,6 +136,41 @@ services:
       ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=hris;Username=hris;Password=hris"
     ports:
       - "8080:8080"
+    depends_on:
+      - db
+      - redis
+      - keycloak
+    networks:
+      - hris
+    profiles: ["dev", "prod"]
+
+  # ========================================
+  # Recruitment / ATS Backend Microservice (ASP.NET Core 9)
+  # ========================================
+  recruitment:
+    build:
+      context: ../apps/api
+      dockerfile: src/Services/Recruitment/hris-recruitment-be/Dockerfile
+    image: hris-recruitment:latest
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8083
+      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=hris;Username=hris;Password=hris"
+      Redis__ConnectionString: "redis:6379,abortConnect=false"
+      Storage__RootPath: "/cv-data"
+      Auth__Authority: "http://keycloak:8081/realms/hris"
+      Auth__Audience: "hris-api"
+      Auth__RequireHttpsMetadata: "false"
+    ports:
+      - "8083:8083"
+    volumes:
+      - cv_data:/cv-data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8083/api/v1/Recruitment/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
     depends_on:
       - db
       - redis
@@ -122,23 +214,33 @@ services:
       - db_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hris -d hris"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - hris
     profiles: ["dev", "prod"]
 
   # ========================================
-  # Redis Cache / Session
+  # Redis Cache / Session / Streams
   # ========================================
   redis:
     image: redis:7-alpine
     ports:
       - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - hris
     profiles: ["dev", "prod"]
 
   # ========================================
-  # AI / RAG Service (FastAPI + ChromaDB + BGE-M3)
+  # AI / RAG & CV Worker Service (FastAPI + ChromaDB + BGE-M3 + Redis Streams)
   # ========================================
   ai:
     build:
@@ -152,16 +254,22 @@ services:
       LLM_API_KEY: ${LLM_API_KEY:-}
       LLM_MODEL: ${LLM_MODEL:-gpt-4o-mini}
       MODEL_CACHE_DIR: /app/data/cache/models
+      REDIS_URL: "redis://redis:6379/0"
+      CV_STORAGE_ROOT: "/cv-data"
+      ENABLE_CV_WORKER: "true"
     ports:
       - "8000:8000"
     volumes:
       - ../apps/ai/data:/app/data
+      - cv_data:/cv-data:ro
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 30s
+    depends_on:
+      - redis
     networks:
       - hris
     profiles: ["dev", "prod"]
@@ -171,10 +279,12 @@ services:
   # ========================================
   keycloak:
     image: quay.io/keycloak/keycloak:24.0
-    command: start-dev --http-port=8081
+    command: start-dev --http-port=8081 --import-realm
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
+    volumes:
+      - ./keycloak/realm-hris.json:/opt/keycloak/data/import/realm-hris.json:ro
     ports:
       - "8081:8081"
     networks:
